@@ -1,33 +1,38 @@
+import 'dart:async';
 import 'dart:io';
 import 'package:calender_test/core/storage/secure_storage_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mcp_toolkit/mcp_toolkit.dart';
 import 'package:uuid/uuid.dart';
 
 import 'app.dart';
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+Future<void> main() async {
+  runZonedGuarded(
+    () async {
+      WidgetsFlutterBinding.ensureInitialized();
 
-  // Firebase 초기화
-  // await Firebase.initializeApp();
+      // Flutter MCP Toolkit 초기화
+      MCPToolkitBinding.instance
+        ..initialize()
+        ..initializeFlutterToolkit();
 
-  // FCM 토큰 요청
-  // final fcmToken = await FirebaseMessaging.instance.getToken();
+      final uuid = const Uuid().v4();
+      final deviceOS = Platform.isIOS ? "iOS" : "AOS";
 
-  // 이용자 식별자 uuid
-  final uuid = const Uuid().v4();
+      await Future.wait([
+        SecureStorageUtil.saveDeviceOS(deviceOS),
+        SecureStorageUtil.saveFcmToken("test"),
+        SecureStorageUtil.saveUuid(uuid),
+      ]);
 
-  // Device OS 확인
-  final deviceOS = Platform.isIOS ? "iOS" : "AOS";
-
-  // SecureStorage에 저장
-  await Future.wait([
-    SecureStorageUtil.saveDeviceOS(deviceOS),
-    // if (fcmToken != null) SecureStorageUtil.saveFcmToken(""),
-    SecureStorageUtil.saveFcmToken("test"),
-    SecureStorageUtil.saveUuid(uuid),
-  ]);
-
-  runApp(const ProviderScope(child: MyApp()));
+      runApp(const ProviderScope(child: MyApp()));
+    },
+    (error, stackTrace) {
+      print("Error: $error");
+      print("Stack trace: $stackTrace");
+      MCPToolkitBinding.instance.handleZoneError(error, stackTrace);
+    },
+  );
 }

@@ -1,14 +1,6 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
-import '../../data/models/todo_model.dart';
+import 'package:calender_test/features/calendar/data/models/todo_model.dart';
 
-part 'calendar_state.freezed.dart';
-
-@freezed
-class CalendarState with _$CalendarState {
-  const factory CalendarState({@Default([]) List<TodoModel> todoList}) =
-      _CalendarState;
-}
-
+/// 더미 Todo 데이터
 final List<TodoModel> dummyTodos = [
   TodoModel(
     title: '화장실 청소',
