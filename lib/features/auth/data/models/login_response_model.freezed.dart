@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'login_response_data.dart';
+part of 'login_response_model.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -15,46 +15,46 @@ final _privateConstructorUsedError = UnsupportedError(
   'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
 );
 
-LoginResponseData _$LoginResponseDataFromJson(Map<String, dynamic> json) {
-  return _LoginResponseData.fromJson(json);
+LoginResponseModel _$LoginResponseModelFromJson(Map<String, dynamic> json) {
+  return _LoginResponseModel.fromJson(json);
 }
 
 /// @nodoc
-mixin _$LoginResponseData {
+mixin _$LoginResponseModel {
   String get accessToken => throw _privateConstructorUsedError;
   String get refreshToken => throw _privateConstructorUsedError;
 
-  /// Serializes this LoginResponseData to a JSON map.
+  /// Serializes this LoginResponseModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
-  /// Create a copy of LoginResponseData
+  /// Create a copy of LoginResponseModel
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $LoginResponseDataCopyWith<LoginResponseData> get copyWith =>
+  $LoginResponseModelCopyWith<LoginResponseModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $LoginResponseDataCopyWith<$Res> {
-  factory $LoginResponseDataCopyWith(
-    LoginResponseData value,
-    $Res Function(LoginResponseData) then,
-  ) = _$LoginResponseDataCopyWithImpl<$Res, LoginResponseData>;
+abstract class $LoginResponseModelCopyWith<$Res> {
+  factory $LoginResponseModelCopyWith(
+    LoginResponseModel value,
+    $Res Function(LoginResponseModel) then,
+  ) = _$LoginResponseModelCopyWithImpl<$Res, LoginResponseModel>;
   @useResult
   $Res call({String accessToken, String refreshToken});
 }
 
 /// @nodoc
-class _$LoginResponseDataCopyWithImpl<$Res, $Val extends LoginResponseData>
-    implements $LoginResponseDataCopyWith<$Res> {
-  _$LoginResponseDataCopyWithImpl(this._value, this._then);
+class _$LoginResponseModelCopyWithImpl<$Res, $Val extends LoginResponseModel>
+    implements $LoginResponseModelCopyWith<$Res> {
+  _$LoginResponseModelCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of LoginResponseData
+  /// Create a copy of LoginResponseModel
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -76,33 +76,33 @@ class _$LoginResponseDataCopyWithImpl<$Res, $Val extends LoginResponseData>
 }
 
 /// @nodoc
-abstract class _$$LoginResponseDataImplCopyWith<$Res>
-    implements $LoginResponseDataCopyWith<$Res> {
-  factory _$$LoginResponseDataImplCopyWith(
-    _$LoginResponseDataImpl value,
-    $Res Function(_$LoginResponseDataImpl) then,
-  ) = __$$LoginResponseDataImplCopyWithImpl<$Res>;
+abstract class _$$LoginResponseModelImplCopyWith<$Res>
+    implements $LoginResponseModelCopyWith<$Res> {
+  factory _$$LoginResponseModelImplCopyWith(
+    _$LoginResponseModelImpl value,
+    $Res Function(_$LoginResponseModelImpl) then,
+  ) = __$$LoginResponseModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String accessToken, String refreshToken});
 }
 
 /// @nodoc
-class __$$LoginResponseDataImplCopyWithImpl<$Res>
-    extends _$LoginResponseDataCopyWithImpl<$Res, _$LoginResponseDataImpl>
-    implements _$$LoginResponseDataImplCopyWith<$Res> {
-  __$$LoginResponseDataImplCopyWithImpl(
-    _$LoginResponseDataImpl _value,
-    $Res Function(_$LoginResponseDataImpl) _then,
+class __$$LoginResponseModelImplCopyWithImpl<$Res>
+    extends _$LoginResponseModelCopyWithImpl<$Res, _$LoginResponseModelImpl>
+    implements _$$LoginResponseModelImplCopyWith<$Res> {
+  __$$LoginResponseModelImplCopyWithImpl(
+    _$LoginResponseModelImpl _value,
+    $Res Function(_$LoginResponseModelImpl) _then,
   ) : super(_value, _then);
 
-  /// Create a copy of LoginResponseData
+  /// Create a copy of LoginResponseModel
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({Object? accessToken = null, Object? refreshToken = null}) {
     return _then(
-      _$LoginResponseDataImpl(
+      _$LoginResponseModelImpl(
         accessToken: null == accessToken
             ? _value.accessToken
             : accessToken // ignore: cast_nullable_to_non_nullable
@@ -118,14 +118,14 @@ class __$$LoginResponseDataImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$LoginResponseDataImpl implements _LoginResponseData {
-  const _$LoginResponseDataImpl({
+class _$LoginResponseModelImpl implements _LoginResponseModel {
+  const _$LoginResponseModelImpl({
     required this.accessToken,
     required this.refreshToken,
   });
 
-  factory _$LoginResponseDataImpl.fromJson(Map<String, dynamic> json) =>
-      _$$LoginResponseDataImplFromJson(json);
+  factory _$LoginResponseModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$LoginResponseModelImplFromJson(json);
 
   @override
   final String accessToken;
@@ -134,14 +134,14 @@ class _$LoginResponseDataImpl implements _LoginResponseData {
 
   @override
   String toString() {
-    return 'LoginResponseData(accessToken: $accessToken, refreshToken: $refreshToken)';
+    return 'LoginResponseModel(accessToken: $accessToken, refreshToken: $refreshToken)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$LoginResponseDataImpl &&
+            other is _$LoginResponseModelImpl &&
             (identical(other.accessToken, accessToken) ||
                 other.accessToken == accessToken) &&
             (identical(other.refreshToken, refreshToken) ||
@@ -152,41 +152,41 @@ class _$LoginResponseDataImpl implements _LoginResponseData {
   @override
   int get hashCode => Object.hash(runtimeType, accessToken, refreshToken);
 
-  /// Create a copy of LoginResponseData
+  /// Create a copy of LoginResponseModel
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$LoginResponseDataImplCopyWith<_$LoginResponseDataImpl> get copyWith =>
-      __$$LoginResponseDataImplCopyWithImpl<_$LoginResponseDataImpl>(
+  _$$LoginResponseModelImplCopyWith<_$LoginResponseModelImpl> get copyWith =>
+      __$$LoginResponseModelImplCopyWithImpl<_$LoginResponseModelImpl>(
         this,
         _$identity,
       );
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$LoginResponseDataImplToJson(this);
+    return _$$LoginResponseModelImplToJson(this);
   }
 }
 
-abstract class _LoginResponseData implements LoginResponseData {
-  const factory _LoginResponseData({
+abstract class _LoginResponseModel implements LoginResponseModel {
+  const factory _LoginResponseModel({
     required final String accessToken,
     required final String refreshToken,
-  }) = _$LoginResponseDataImpl;
+  }) = _$LoginResponseModelImpl;
 
-  factory _LoginResponseData.fromJson(Map<String, dynamic> json) =
-      _$LoginResponseDataImpl.fromJson;
+  factory _LoginResponseModel.fromJson(Map<String, dynamic> json) =
+      _$LoginResponseModelImpl.fromJson;
 
   @override
   String get accessToken;
   @override
   String get refreshToken;
 
-  /// Create a copy of LoginResponseData
+  /// Create a copy of LoginResponseModel
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$LoginResponseDataImplCopyWith<_$LoginResponseDataImpl> get copyWith =>
+  _$$LoginResponseModelImplCopyWith<_$LoginResponseModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

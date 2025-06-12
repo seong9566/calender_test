@@ -1,20 +1,20 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'login_response_data.dart';
+part of 'login_response_model.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$LoginResponseDataImpl _$$LoginResponseDataImplFromJson(
+_$LoginResponseModelImpl _$$LoginResponseModelImplFromJson(
   Map<String, dynamic> json,
-) => _$LoginResponseDataImpl(
+) => _$LoginResponseModelImpl(
   accessToken: json['accessToken'] as String,
   refreshToken: json['refreshToken'] as String,
 );
 
-Map<String, dynamic> _$$LoginResponseDataImplToJson(
-  _$LoginResponseDataImpl instance,
+Map<String, dynamic> _$$LoginResponseModelImplToJson(
+  _$LoginResponseModelImpl instance,
 ) => <String, dynamic>{
   'accessToken': instance.accessToken,
   'refreshToken': instance.refreshToken,

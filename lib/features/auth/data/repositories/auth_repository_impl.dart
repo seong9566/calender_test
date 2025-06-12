@@ -1,5 +1,5 @@
 import 'package:calender_test/features/auth/data/datasources/auth_remote_data_source.dart';
-import 'package:calender_test/features/auth/data/models/login_response_data.dart';
+import 'package:calender_test/features/auth/data/models/login_response_model.dart';
 import 'package:calender_test/features/auth/domain/repositories/auth_repository.dart';
 import 'package:calender_test/network/base_response.dart';
 import 'package:dio/dio.dart';
@@ -11,7 +11,7 @@ class AuthRepositoryImpl implements AuthRepository {
   AuthRepositoryImpl(this._remoteDataSource);
 
   @override
-  Future<BaseResponse<LoginResponseData>> login(
+  Future<BaseResponse<LoginResponseModel>> login(
     String userId,
     String userPassword,
     String fcmToken,
@@ -30,9 +30,9 @@ class AuthRepositoryImpl implements AuthRepository {
         try {
           final Map<String, dynamic> errorResponseData =
               e.response!.data['response'] as Map<String, dynamic>;
-          return BaseResponse<LoginResponseData>.fromJson(
+          return BaseResponse<LoginResponseModel>.fromJson(
             errorResponseData,
-            (json) => LoginResponseData.fromJson(json as Map<String, dynamic>),
+            (json) => LoginResponseModel.fromJson(json as Map<String, dynamic>),
           );
         } catch (parseError) {
           throw Exception('Failed to parse error response: $parseError');

@@ -4,7 +4,6 @@ class SecureStorageUtil {
   // 키 상수
   static const _accessTokenKey = 'access_token';
   static const _refreshTokenKey = 'refresh_token';
-  static const _deviceOSKey = 'device_os';
   static const _fcmTokenKey = 'fcm_token';
   static const _uuidKey = 'uuid';
   static const _ruleKey = 'rule';
@@ -43,23 +42,6 @@ class SecureStorageUtil {
 
   static Future<void> updateRefreshToken(String token) async {
     await _storage.write(key: _refreshTokenKey, value: token);
-  }
-
-  // Device OS CRUD
-  static Future<void> saveDeviceOS(String deviceOS) async {
-    await _storage.write(key: _deviceOSKey, value: deviceOS);
-  }
-
-  static Future<String?> getDeviceOS() async {
-    return await _storage.read(key: _deviceOSKey);
-  }
-
-  static Future<void> deleteDeviceOS() async {
-    await _storage.delete(key: _deviceOSKey);
-  }
-
-  static Future<void> updateDeviceOS(String deviceOS) async {
-    await _storage.write(key: _deviceOSKey, value: deviceOS);
   }
 
   // FCM Token CRUD
@@ -125,7 +107,6 @@ class SecureStorageUtil {
     await Future.wait([
       saveAccessToken(accessToken),
       saveRefreshToken(refreshToken),
-      saveDeviceOS(deviceOS),
       saveFcmToken(fcmToken),
       saveUuid(uuid),
       saveRule(rule),

@@ -2,12 +2,16 @@ import 'package:calender_test/core/storage/secure_storage_util.dart';
 import 'package:calender_test/network/api_endpoint.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'dart:io' show Platform;
 
 class DioClient {
   static final DioClient _instance = DioClient._internal();
   factory DioClient() => _instance;
 
   late final Dio dio;
+  
+  // 기기 OS 정보 (한 번만 초기화)
+  final String deviceOS = Platform.isIOS ? 'iOS' : 'AOS';
 
   // 로그아웃 콜백 (앱에서 DI 또는 setter로 주입 가능)
   static void Function()? onLogout;
@@ -18,7 +22,10 @@ class DioClient {
         baseUrl: ApiEndPoint.baseUrl,
         connectTimeout: const Duration(seconds: 15),
         receiveTimeout: const Duration(seconds: 15),
-        headers: {'Content-Type': 'application/json', "X-Device-OS": "AOS"},
+        headers: {
+          'Content-Type': 'application/json',
+          "X-Device-OS": deviceOS,
+        },
       ),
     );
 

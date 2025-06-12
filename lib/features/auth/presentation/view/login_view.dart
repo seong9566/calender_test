@@ -1,8 +1,10 @@
+import 'package:calender_test/core/theme/app_theme.dart' as AppTheme;
 import 'package:calender_test/features/auth/presentation/providers/auth_providers_di.dart'; // 경로 수정
 import 'package:calender_test/features/auth/presentation/viewmodels/login_viewmodel.dart'; // 경로 및 타입 수정
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:calender_test/features/auth/presentation/view/widgets/auth_input_field.dart';
 
 class LoginView extends ConsumerStatefulWidget {
   const LoginView({super.key});
@@ -12,7 +14,9 @@ class LoginView extends ConsumerStatefulWidget {
 }
 
 class _LoginViewState extends ConsumerState<LoginView> {
-  final userIdController = TextEditingController(text: "mobile"); // 테스트용 기본값
+  final userIdController = TextEditingController(
+    text: "2531590000",
+  ); // 테스트용 기본값
   final passwordController = TextEditingController(
     text: "stecdev1234!",
   ); // 테스트용 기본값
@@ -30,12 +34,18 @@ class _LoginViewState extends ConsumerState<LoginView> {
     final loginVM = ref.read(loginViewModelProvider.notifier);
     final loginState = ref.watch(loginViewModelProvider);
 
-    // 로그인 상태 변경 감지 및 화면 이동 / 오류 메시지 처리
     ref.listen<LoginStatus>(loginViewModelProvider, (previous, next) {
-      if (next == LoginStatus.success) {
-        context.go('/calendar'); // 로그인 성공 시 캘린더 화면으로 이동
-      }
-      if (next == LoginStatus.error) {
+      // 로그인 성공 시 캘린더 화면으로 이동
+      if (next.loginStatus == LoginStatusEnum.user) {
+        context.goNamed('calendar');
+      } else if (next.loginStatus == LoginStatusEnum.manager) {
+        // 로그인이 매니저라면, 사업장 선택 화면
+        context.goNamed('business-selection');
+      } else if (next.loginStatus == LoginStatusEnum.changePwd) {
+        // 비밀번호 변경 화면
+        context.pushNamed('password-change');
+      } else if (next.loginStatus == LoginStatusEnum.loading) {
+      } else {
         // 오류 메시지 표시 (예: SnackBar)
         ScaffoldMessenger.of(
           context,
@@ -50,11 +60,14 @@ class _LoginViewState extends ConsumerState<LoginView> {
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
           child: Column(
             children: [
-              _inputField('아이디', userIdController), // 한글 힌트
+              AuthInputField(
+                hintText: '아이디',
+                controller: userIdController,
+              ), // 한글 힌트
               const SizedBox(height: 16),
-              _inputField(
-                '비밀번호',
-                passwordController,
+              AuthInputField(
+                hintText: '비밀번호',
+                controller: passwordController,
                 isPassword: true,
               ), // 한글 힌트
               const SizedBox(height: 16),
@@ -78,56 +91,29 @@ class _LoginViewState extends ConsumerState<LoginView> {
           shape: WidgetStatePropertyAll(
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(36)),
           ),
-          backgroundColor: const WidgetStatePropertyAll<Color>(
-            Color(0xff0A80ED),
-          ),
+          backgroundColor: WidgetStatePropertyAll<Color>(AppTheme.primaryColor),
         ),
         onPressed:
-            state ==
-                LoginStatus
+            state.loginStatus ==
+                LoginStatusEnum
                     .loading // 로딩 중일 때 버튼 비활성화
             ? null
             : () {
                 vm.login(userIdController.text, passwordController.text);
               },
         child:
-            state ==
-                LoginStatus
+            state.loginStatus ==
+                LoginStatusEnum
                     .loading // 로딩 상태 확인 변경
             ? const CircularProgressIndicator(color: Colors.white)
             : const Text(
                 '로그인',
-                style: TextStyle(color: Colors.white, fontSize: 16),
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
               ), // 한글 및 스타일 추가
-      ),
-    );
-  }
-
-  Widget _inputField(
-    String hintText,
-    TextEditingController controller, {
-    bool isPassword = false,
-  }) {
-    return SizedBox(
-      height: 56,
-      child: TextField(
-        controller: controller,
-        obscureText: isPassword,
-        keyboardType: TextInputType.name, // 이메일/텍스트에 따라 변경 가능
-        decoration: InputDecoration(
-          hintText: hintText,
-          hintStyle: const TextStyle(fontSize: 16, color: Color(0xff61758A)),
-          filled: true,
-          fillColor: const Color(0xffF0F2F5),
-          contentPadding: const EdgeInsets.symmetric(
-            vertical: 16,
-            horizontal: 20,
-          ),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide.none,
-          ),
-        ),
       ),
     );
   }

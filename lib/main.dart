@@ -13,16 +13,9 @@ Future<void> main() async {
     () async {
       WidgetsFlutterBinding.ensureInitialized();
 
-      // Flutter MCP Toolkit 초기화
-      MCPToolkitBinding.instance
-        ..initialize()
-        ..initializeFlutterToolkit();
-
       final uuid = const Uuid().v4();
-      final deviceOS = Platform.isIOS ? "iOS" : "AOS";
 
       await Future.wait([
-        SecureStorageUtil.saveDeviceOS(deviceOS),
         SecureStorageUtil.saveFcmToken("test"),
         SecureStorageUtil.saveUuid(uuid),
       ]);
@@ -32,7 +25,6 @@ Future<void> main() async {
     (error, stackTrace) {
       print("Error: $error");
       print("Stack trace: $stackTrace");
-      MCPToolkitBinding.instance.handleZoneError(error, stackTrace);
     },
   );
 }

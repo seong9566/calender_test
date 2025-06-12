@@ -1,7 +1,7 @@
 import 'package:calender_test/features/base/presentation/base_view.dart';
+import 'package:calender_test/features/business_selection/presentation/business_selection_view.dart';
 import 'package:calender_test/features/calendar/presentation/view/custom_calendar_view.dart';
 import 'package:calender_test/features/auth/presentation/view/login_view.dart';
-import 'package:calender_test/features/calendar/presentation/view/widgets/todo_detail_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -12,14 +12,35 @@ final GlobalKey<NavigatorState> rootNavKey = GlobalKey<NavigatorState>();
 final GlobalKey<NavigatorState> shellNavKey = GlobalKey<NavigatorState>();
 
 final router = GoRouter(
-  initialLocation: '/calendar',
-  // initialLocation: '/login',
+  // initialLocation: '/calendar',
+  initialLocation: '/login',
   routes: [
     // 로그인 화면
     GoRoute(
       path: '/login',
       name: 'login',
       builder: (context, state) => LoginView(),
+    ),
+
+    // 사업장 선택
+    GoRoute(
+      path: '/business-selection',
+      name: 'business-selection',
+      pageBuilder: (context, state) => CustomTransitionPage(
+        key: state.pageKey,
+        child: BusinessSelectionView(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          final tween = Tween<Offset>(
+            begin: Offset(1, 0),
+            end: Offset.zero,
+          ).chain(CurveTween(curve: Curves.easeInOut));
+
+          return SlideTransition(
+            position: animation.drive(tween),
+            child: child,
+          );
+        },
+      ),
     ),
 
     // 로그인 이후 공통 레이아웃
