@@ -1,7 +1,5 @@
 class ApiEndPoint {
-  /**
-   * dev, release 환경 ip가 다름
-   */
+  /// dev, release 환경 ip가 다름
   // WEB
   // static const String baseUrl = "http://123.2.156.148:5245/api/";
 
@@ -19,4 +17,7 @@ class ApiEndPoint {
 
   /// 일정 추가
   static const String addCalendar = "v1/Calendar/M/sign/AddCalendar";
+
+  /// 사업장 목록 조회
+  static const String businessLocations = "v1/Login/M/sign/MyLocationList";
 }

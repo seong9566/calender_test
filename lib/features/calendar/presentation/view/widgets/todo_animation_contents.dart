@@ -19,7 +19,7 @@ class TodoAnimationContents extends StatelessWidget {
   Widget build(BuildContext context) {
     return SliverToBoxAdapter(
       child: AnimatedSwitcher(
-        duration: const Duration(milliseconds: 300),
+        duration: const Duration(milliseconds: 150),
         transitionBuilder: (child, animation) {
           return FadeTransition(
             opacity: animation,
