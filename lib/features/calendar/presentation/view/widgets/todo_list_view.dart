@@ -1,6 +1,7 @@
 import 'package:calender_test/core/extension/date_time_formatt_extension.dart';
 import 'package:calender_test/features/calendar/data/models/todo_model.dart';
 import 'package:calender_test/features/calendar/presentation/providers/calendar_providers_di.dart';
+import 'package:calender_test/features/calendar/presentation/view/widgets/todo_animation_contents.dart';
 import 'package:calender_test/features/calendar/presentation/view/widgets/todo_card_item.dart';
 import 'package:calender_test/features/calendar/presentation/view/widgets/todo_detail_bottom_sheet.dart';
 import 'package:calender_test/features/calendar/presentation/view/widgets/todo_sliver_header_delegate.dart';
@@ -91,141 +92,55 @@ class _DayTodoListViewState extends ConsumerState<DayTodoListView> {
         controller: scrollController,
         slivers: [
           // 1. 사업장 할 일 헤더 (고정)
-          SliverPersistentHeader(
+          TodoSliverHeader(
             pinned: true,
-            delegate: TodoSliverHeaderDelegate(
-              title: '사업장 할 일',
-              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-              onTap: _toggleBusinessExpanded,
-              isExpanded: _businessExpanded,
-              height: 56.0, // 명시적으로 높이 지정
-            ),
+            title: '사업장 할 일',
+            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+            onTap: _toggleBusinessExpanded,
+            isExpanded: _businessExpanded,
+            height: 56.0,
           ),
 
           // 2. 사업장 할 일 목록
-          SliverToBoxAdapter(
-            child: AnimatedSwitcher(
-              duration: const Duration(milliseconds: 300),
-              transitionBuilder: (child, animation) {
-                return FadeTransition(
-                  opacity: animation,
-                  child: SizeTransition(
-                    sizeFactor: animation,
-                    axisAlignment: -1.0,
-                    child: child,
-                  ),
-                );
-              },
-              child: _businessExpanded
-                  ? businessTodos.isEmpty
-                        ? const Padding(
-                            key: ValueKey('businessEmptyList'),
-                            padding: EdgeInsets.symmetric(vertical: 20.0),
-                            child: Center(child: Text('등록된 사업장 할 일이 없습니다.')),
-                          )
-                        : Padding(
-                            key: const ValueKey('businessListExpanded'),
-                            padding: const EdgeInsets.symmetric(vertical: 8.0),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: businessTodos.map((todo) {
-                                return GestureDetector(
-                                  onTap: () {
-                                    final originalIndex = todos.indexOf(todo);
-                                    showTodoDetailBottomSheet(
-                                      context,
-                                      originalIndex,
-                                    );
-                                  },
-                                  child: TodoCardItem(
-                                    title: todo.title,
-                                    onChanged: (value) {
-                                      final originalIndex = todos.indexOf(todo);
-                                      ref
-                                          .read(
-                                            calendarViewModelProvider.notifier,
-                                          )
-                                          .checkTodo(originalIndex, value!);
-                                    },
-                                    isChecked: todo.isChecked,
-                                  ),
-                                );
-                              }).toList(),
-                            ),
-                          )
-                  : const SizedBox.shrink(
-                      key: ValueKey('businessListCollapsed'),
-                    ),
-            ),
+          TodoAnimationContents(
+            isExpanded: _businessExpanded,
+            todos: businessTodos,
+            onTap: (index) {
+              final originalIndex = todos.indexOf(businessTodos[index]);
+              showTodoDetailBottomSheet(context, originalIndex);
+            },
+            onChanged: (index, value) {
+              final originalIndex = todos.indexOf(businessTodos[index]);
+              ref
+                  .read(calendarViewModelProvider.notifier)
+                  .checkTodo(originalIndex, value!);
+            },
           ),
 
           // 3. 개인 할 일 헤더 (고정)
-          SliverPersistentHeader(
+          TodoSliverHeader(
             pinned: true,
-            delegate: TodoSliverHeaderDelegate(
-              title: '개인 할 일',
-              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-              onTap: _togglePersonalExpanded,
-              isExpanded: _personalExpanded,
-              height: 56.0, // 명시적으로 높이 지정
-            ),
+            title: '개인 할 일',
+            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+            onTap: _togglePersonalExpanded,
+            isExpanded: _personalExpanded,
+            height: 56.0,
           ),
 
           // 4. 개인 할 일 목록
-          SliverToBoxAdapter(
-            child: AnimatedSwitcher(
-              duration: const Duration(milliseconds: 300),
-              transitionBuilder: (child, animation) {
-                return FadeTransition(
-                  opacity: animation,
-                  child: SizeTransition(
-                    sizeFactor: animation,
-                    axisAlignment: -1.0,
-                    child: child,
-                  ),
-                );
-              },
-              child: _personalExpanded
-                  ? personalTodos.isEmpty
-                        ? const Padding(
-                            key: ValueKey('personalEmptyList'),
-                            padding: EdgeInsets.symmetric(vertical: 20.0),
-                            child: Center(child: Text('등록된 개인 할 일이 없습니다.')),
-                          )
-                        : Padding(
-                            key: const ValueKey('personalListExpanded'),
-                            padding: const EdgeInsets.symmetric(vertical: 8.0),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: personalTodos.map((todo) {
-                                return GestureDetector(
-                                  onTap: () {
-                                    final originalIndex = todos.indexOf(todo);
-                                    showTodoDetailBottomSheet(
-                                      context,
-                                      originalIndex,
-                                    );
-                                  },
-                                  child: TodoCardItem(
-                                    title: todo.title,
-                                    onChanged: (value) {
-                                      final originalIndex = todos.indexOf(todo);
-                                      ref
-                                          .read(
-                                            calendarViewModelProvider.notifier,
-                                          )
-                                          .checkTodo(originalIndex, value!);
-                                    },
-                                    isChecked: todo.isChecked,
-                                  ),
-                                );
-                              }).toList(),
-                            ),
-                          )
-                  : const SizedBox.shrink(
-                      key: ValueKey('personalListCollapsed'),
-                    ),
-            ),
+          TodoAnimationContents(
+            isExpanded: _personalExpanded,
+            todos: personalTodos,
+            onTap: (index) {
+              final originalIndex = todos.indexOf(personalTodos[index]);
+              showTodoDetailBottomSheet(context, originalIndex);
+            },
+            onChanged: (index, value) {
+              final originalIndex = todos.indexOf(personalTodos[index]);
+              ref
+                  .read(calendarViewModelProvider.notifier)
+                  .checkTodo(originalIndex, value!);
+            },
           ),
 
           // 5. 하단 여백

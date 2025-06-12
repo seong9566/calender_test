@@ -1,19 +1,51 @@
 import 'package:flutter/material.dart';
 
-/// 고정 헤더를 위한 위젯 클래스
-class TodoSliverHeaderDelegate extends SliverPersistentHeaderDelegate {
+class TodoSliverHeader extends StatelessWidget {
   final String title;
   final double height;
   final Color backgroundColor;
   final VoidCallback onTap;
-  final bool isExpanded; // 확장 상태를 나타내는 속성 추가
-
-  TodoSliverHeaderDelegate({
+  final bool isExpanded;
+  final bool pinned;
+  const TodoSliverHeader({
+    super.key,
     required this.title,
     this.height = 50.0,
     this.backgroundColor = Colors.white,
     required this.onTap,
-    required this.isExpanded, // 생성자에도 추가
+    required this.isExpanded,
+    this.pinned = true,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SliverPersistentHeader(
+      pinned: pinned,
+      delegate: SliverHeaderDelegate(
+        title: title,
+        height: height,
+        backgroundColor: backgroundColor,
+        onTap: onTap,
+        isExpanded: isExpanded,
+      ),
+    );
+  }
+}
+
+/// 고정 헤더를 위한 위젯 클래스
+class SliverHeaderDelegate extends SliverPersistentHeaderDelegate {
+  final String title;
+  final double height;
+  final Color backgroundColor;
+  final VoidCallback onTap;
+  final bool isExpanded;
+
+  SliverHeaderDelegate({
+    required this.title,
+    this.height = 50.0,
+    this.backgroundColor = Colors.white,
+    required this.onTap,
+    required this.isExpanded,
   });
 
   @override
@@ -26,7 +58,7 @@ class TodoSliverHeaderDelegate extends SliverPersistentHeaderDelegate {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        height: height, // 명시적으로 높이 지정
+        height: height,
         color: backgroundColor,
         alignment: Alignment.center,
         child: Padding(
@@ -36,12 +68,18 @@ class TodoSliverHeaderDelegate extends SliverPersistentHeaderDelegate {
             children: [
               Text(
                 title,
-                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               AnimatedRotation(
                 turns: isExpanded ? 0.5 : 0.0,
                 duration: const Duration(milliseconds: 300),
-                child: const Icon(Icons.keyboard_arrow_down, color: Colors.grey),
+                child: const Icon(
+                  Icons.keyboard_arrow_down,
+                  color: Colors.grey,
+                ),
               ),
             ],
           ),
@@ -57,7 +95,7 @@ class TodoSliverHeaderDelegate extends SliverPersistentHeaderDelegate {
   double get minExtent => height;
 
   @override
-  bool shouldRebuild(covariant TodoSliverHeaderDelegate oldDelegate) =>
+  bool shouldRebuild(covariant SliverHeaderDelegate oldDelegate) =>
       oldDelegate.title != title ||
       oldDelegate.height != height ||
       oldDelegate.backgroundColor != backgroundColor ||
