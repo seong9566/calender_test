@@ -1,5 +1,6 @@
 import 'package:calender_test/features/auth/data/models/login_response_model.dart';
-import 'package:calender_test/network/api_endpoint.dart'; // Assuming login endpoint is here
+import 'package:calender_test/network/api_endpoint.dart';
+import 'package:calender_test/network/api_error.dart';
 import 'package:calender_test/network/base_response.dart';
 import 'package:calender_test/network/dio_client.dart';
 import 'package:dio/dio.dart';
@@ -9,7 +10,6 @@ abstract class AuthRemoteDataSource {
     String userId,
     String userPassword,
     String fcmToken,
-    String uuid,
   );
 }
 
@@ -24,7 +24,6 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     String userId,
     String userPassword,
     String fcmToken,
-    String uuid,
   ) async {
     try {
       final response = await _dioClient.post(
@@ -33,7 +32,6 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
           'loginId': userId,
           'loginPassword': userPassword,
           'fcmToken': fcmToken,
-          'uuid': uuid,
         },
       );
       final Map<String, dynamic> responseData =
@@ -44,18 +42,18 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         (json) => LoginResponseModel.fromJson(json as Map<String, dynamic>),
       );
     } on DioException catch (e) {
-      final Map<String, dynamic> errorResponseData =
-          e.response!.data as Map<String, dynamic>;
-      try {
-        return BaseResponse<LoginResponseModel>.fromJson(
-          errorResponseData,
-          (json) => LoginResponseModel.fromJson(json as Map<String, dynamic>),
-        );
-      } catch (parseError) {
-        rethrow;
-      }
+      // ApiError 클래스를 활용한 DioException 처리
+      return ApiError.handleDioException<LoginResponseModel>(
+        e,
+        (json) => LoginResponseModel.fromJson(json),
+        LoginResponseModel(accessToken: '', refreshToken: ''),
+      );
     } catch (e) {
-      rethrow;
+      // ApiError 클래스를 활용한 일반 예외 처리
+      return ApiError.handleGeneralException<LoginResponseModel>(
+        e,
+        LoginResponseModel(accessToken: '', refreshToken: ''),
+      );
     }
   }
 }

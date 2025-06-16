@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'calendar_event_model.dart';
+part of 'calendar_response_model.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -15,12 +15,14 @@ final _privateConstructorUsedError = UnsupportedError(
   'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
 );
 
-CalendarEventModel _$CalendarEventModelFromJson(Map<String, dynamic> json) {
-  return _CalendarEventModel.fromJson(json);
+CalendarResponseModel _$CalendarResponseModelFromJson(
+  Map<String, dynamic> json,
+) {
+  return _CalendarResponseModel.fromJson(json);
 }
 
 /// @nodoc
-mixin _$CalendarEventModel {
+mixin _$CalendarResponseModel {
   String get id => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
@@ -30,22 +32,22 @@ mixin _$CalendarEventModel {
   Color get color => throw _privateConstructorUsedError;
   bool get isAllDay => throw _privateConstructorUsedError;
 
-  /// Serializes this CalendarEventModel to a JSON map.
+  /// Serializes this CalendarResponseModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
-  /// Create a copy of CalendarEventModel
+  /// Create a copy of CalendarResponseModel
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $CalendarEventModelCopyWith<CalendarEventModel> get copyWith =>
+  $CalendarResponseModelCopyWith<CalendarResponseModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $CalendarEventModelCopyWith<$Res> {
-  factory $CalendarEventModelCopyWith(
-    CalendarEventModel value,
-    $Res Function(CalendarEventModel) then,
-  ) = _$CalendarEventModelCopyWithImpl<$Res, CalendarEventModel>;
+abstract class $CalendarResponseModelCopyWith<$Res> {
+  factory $CalendarResponseModelCopyWith(
+    CalendarResponseModel value,
+    $Res Function(CalendarResponseModel) then,
+  ) = _$CalendarResponseModelCopyWithImpl<$Res, CalendarResponseModel>;
   @useResult
   $Res call({
     String id,
@@ -59,16 +61,19 @@ abstract class $CalendarEventModelCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$CalendarEventModelCopyWithImpl<$Res, $Val extends CalendarEventModel>
-    implements $CalendarEventModelCopyWith<$Res> {
-  _$CalendarEventModelCopyWithImpl(this._value, this._then);
+class _$CalendarResponseModelCopyWithImpl<
+  $Res,
+  $Val extends CalendarResponseModel
+>
+    implements $CalendarResponseModelCopyWith<$Res> {
+  _$CalendarResponseModelCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of CalendarEventModel
+  /// Create a copy of CalendarResponseModel
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -118,12 +123,12 @@ class _$CalendarEventModelCopyWithImpl<$Res, $Val extends CalendarEventModel>
 }
 
 /// @nodoc
-abstract class _$$CalendarEventModelImplCopyWith<$Res>
-    implements $CalendarEventModelCopyWith<$Res> {
-  factory _$$CalendarEventModelImplCopyWith(
-    _$CalendarEventModelImpl value,
-    $Res Function(_$CalendarEventModelImpl) then,
-  ) = __$$CalendarEventModelImplCopyWithImpl<$Res>;
+abstract class _$$CalendarResponseModelImplCopyWith<$Res>
+    implements $CalendarResponseModelCopyWith<$Res> {
+  factory _$$CalendarResponseModelImplCopyWith(
+    _$CalendarResponseModelImpl value,
+    $Res Function(_$CalendarResponseModelImpl) then,
+  ) = __$$CalendarResponseModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({
@@ -138,15 +143,16 @@ abstract class _$$CalendarEventModelImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$CalendarEventModelImplCopyWithImpl<$Res>
-    extends _$CalendarEventModelCopyWithImpl<$Res, _$CalendarEventModelImpl>
-    implements _$$CalendarEventModelImplCopyWith<$Res> {
-  __$$CalendarEventModelImplCopyWithImpl(
-    _$CalendarEventModelImpl _value,
-    $Res Function(_$CalendarEventModelImpl) _then,
+class __$$CalendarResponseModelImplCopyWithImpl<$Res>
+    extends
+        _$CalendarResponseModelCopyWithImpl<$Res, _$CalendarResponseModelImpl>
+    implements _$$CalendarResponseModelImplCopyWith<$Res> {
+  __$$CalendarResponseModelImplCopyWithImpl(
+    _$CalendarResponseModelImpl _value,
+    $Res Function(_$CalendarResponseModelImpl) _then,
   ) : super(_value, _then);
 
-  /// Create a copy of CalendarEventModel
+  /// Create a copy of CalendarResponseModel
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -160,7 +166,7 @@ class __$$CalendarEventModelImplCopyWithImpl<$Res>
     Object? isAllDay = null,
   }) {
     return _then(
-      _$CalendarEventModelImpl(
+      _$CalendarResponseModelImpl(
         id: null == id
             ? _value.id
             : id // ignore: cast_nullable_to_non_nullable
@@ -196,8 +202,8 @@ class __$$CalendarEventModelImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$CalendarEventModelImpl extends _CalendarEventModel {
-  const _$CalendarEventModelImpl({
+class _$CalendarResponseModelImpl extends _CalendarResponseModel {
+  const _$CalendarResponseModelImpl({
     required this.id,
     required this.title,
     required this.description,
@@ -208,8 +214,8 @@ class _$CalendarEventModelImpl extends _CalendarEventModel {
     this.isAllDay = false,
   }) : super._();
 
-  factory _$CalendarEventModelImpl.fromJson(Map<String, dynamic> json) =>
-      _$$CalendarEventModelImplFromJson(json);
+  factory _$CalendarResponseModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$CalendarResponseModelImplFromJson(json);
 
   @override
   final String id;
@@ -230,14 +236,14 @@ class _$CalendarEventModelImpl extends _CalendarEventModel {
 
   @override
   String toString() {
-    return 'CalendarEventModel(id: $id, title: $title, description: $description, startTime: $startTime, endTime: $endTime, color: $color, isAllDay: $isAllDay)';
+    return 'CalendarResponseModel(id: $id, title: $title, description: $description, startTime: $startTime, endTime: $endTime, color: $color, isAllDay: $isAllDay)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$CalendarEventModelImpl &&
+            other is _$CalendarResponseModelImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.description, description) ||
@@ -263,25 +269,26 @@ class _$CalendarEventModelImpl extends _CalendarEventModel {
     isAllDay,
   );
 
-  /// Create a copy of CalendarEventModel
+  /// Create a copy of CalendarResponseModel
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$CalendarEventModelImplCopyWith<_$CalendarEventModelImpl> get copyWith =>
-      __$$CalendarEventModelImplCopyWithImpl<_$CalendarEventModelImpl>(
+  _$$CalendarResponseModelImplCopyWith<_$CalendarResponseModelImpl>
+  get copyWith =>
+      __$$CalendarResponseModelImplCopyWithImpl<_$CalendarResponseModelImpl>(
         this,
         _$identity,
       );
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$CalendarEventModelImplToJson(this);
+    return _$$CalendarResponseModelImplToJson(this);
   }
 }
 
-abstract class _CalendarEventModel extends CalendarEventModel {
-  const factory _CalendarEventModel({
+abstract class _CalendarResponseModel extends CalendarResponseModel {
+  const factory _CalendarResponseModel({
     required final String id,
     required final String title,
     required final String description,
@@ -289,11 +296,11 @@ abstract class _CalendarEventModel extends CalendarEventModel {
     required final DateTime endTime,
     @JsonKey(includeToJson: false, includeFromJson: false) final Color color,
     final bool isAllDay,
-  }) = _$CalendarEventModelImpl;
-  const _CalendarEventModel._() : super._();
+  }) = _$CalendarResponseModelImpl;
+  const _CalendarResponseModel._() : super._();
 
-  factory _CalendarEventModel.fromJson(Map<String, dynamic> json) =
-      _$CalendarEventModelImpl.fromJson;
+  factory _CalendarResponseModel.fromJson(Map<String, dynamic> json) =
+      _$CalendarResponseModelImpl.fromJson;
 
   @override
   String get id;
@@ -311,10 +318,10 @@ abstract class _CalendarEventModel extends CalendarEventModel {
   @override
   bool get isAllDay;
 
-  /// Create a copy of CalendarEventModel
+  /// Create a copy of CalendarResponseModel
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$CalendarEventModelImplCopyWith<_$CalendarEventModelImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$CalendarResponseModelImplCopyWith<_$CalendarResponseModelImpl>
+  get copyWith => throw _privateConstructorUsedError;
 }

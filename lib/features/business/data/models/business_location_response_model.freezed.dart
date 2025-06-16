@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'business_location_model.dart';
+part of 'business_location_response_model.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -15,36 +15,40 @@ final _privateConstructorUsedError = UnsupportedError(
   'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
 );
 
-BusinessLocationModel _$BusinessLocationModelFromJson(
+BusinessLocationResponseModel _$BusinessLocationResponseModelFromJson(
   Map<String, dynamic> json,
 ) {
-  return _BusinessLocationModel.fromJson(json);
+  return _BusinessLocationResponseModel.fromJson(json);
 }
 
 /// @nodoc
-mixin _$BusinessLocationModel {
+mixin _$BusinessLocationResponseModel {
   int get locationId => throw _privateConstructorUsedError;
   String get locationName => throw _privateConstructorUsedError;
   String get contractNum => throw _privateConstructorUsedError;
   DateTime? get contractDt => throw _privateConstructorUsedError;
   bool get status => throw _privateConstructorUsedError;
 
-  /// Serializes this BusinessLocationModel to a JSON map.
+  /// Serializes this BusinessLocationResponseModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
-  /// Create a copy of BusinessLocationModel
+  /// Create a copy of BusinessLocationResponseModel
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $BusinessLocationModelCopyWith<BusinessLocationModel> get copyWith =>
-      throw _privateConstructorUsedError;
+  $BusinessLocationResponseModelCopyWith<BusinessLocationResponseModel>
+  get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $BusinessLocationModelCopyWith<$Res> {
-  factory $BusinessLocationModelCopyWith(
-    BusinessLocationModel value,
-    $Res Function(BusinessLocationModel) then,
-  ) = _$BusinessLocationModelCopyWithImpl<$Res, BusinessLocationModel>;
+abstract class $BusinessLocationResponseModelCopyWith<$Res> {
+  factory $BusinessLocationResponseModelCopyWith(
+    BusinessLocationResponseModel value,
+    $Res Function(BusinessLocationResponseModel) then,
+  ) =
+      _$BusinessLocationResponseModelCopyWithImpl<
+        $Res,
+        BusinessLocationResponseModel
+      >;
   @useResult
   $Res call({
     int locationId,
@@ -56,19 +60,19 @@ abstract class $BusinessLocationModelCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$BusinessLocationModelCopyWithImpl<
+class _$BusinessLocationResponseModelCopyWithImpl<
   $Res,
-  $Val extends BusinessLocationModel
+  $Val extends BusinessLocationResponseModel
 >
-    implements $BusinessLocationModelCopyWith<$Res> {
-  _$BusinessLocationModelCopyWithImpl(this._value, this._then);
+    implements $BusinessLocationResponseModelCopyWith<$Res> {
+  _$BusinessLocationResponseModelCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of BusinessLocationModel
+  /// Create a copy of BusinessLocationResponseModel
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -108,12 +112,12 @@ class _$BusinessLocationModelCopyWithImpl<
 }
 
 /// @nodoc
-abstract class _$$BusinessLocationModelImplCopyWith<$Res>
-    implements $BusinessLocationModelCopyWith<$Res> {
-  factory _$$BusinessLocationModelImplCopyWith(
-    _$BusinessLocationModelImpl value,
-    $Res Function(_$BusinessLocationModelImpl) then,
-  ) = __$$BusinessLocationModelImplCopyWithImpl<$Res>;
+abstract class _$$BusinessLocationResponseModelImplCopyWith<$Res>
+    implements $BusinessLocationResponseModelCopyWith<$Res> {
+  factory _$$BusinessLocationResponseModelImplCopyWith(
+    _$BusinessLocationResponseModelImpl value,
+    $Res Function(_$BusinessLocationResponseModelImpl) then,
+  ) = __$$BusinessLocationResponseModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({
@@ -126,16 +130,19 @@ abstract class _$$BusinessLocationModelImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$BusinessLocationModelImplCopyWithImpl<$Res>
+class __$$BusinessLocationResponseModelImplCopyWithImpl<$Res>
     extends
-        _$BusinessLocationModelCopyWithImpl<$Res, _$BusinessLocationModelImpl>
-    implements _$$BusinessLocationModelImplCopyWith<$Res> {
-  __$$BusinessLocationModelImplCopyWithImpl(
-    _$BusinessLocationModelImpl _value,
-    $Res Function(_$BusinessLocationModelImpl) _then,
+        _$BusinessLocationResponseModelCopyWithImpl<
+          $Res,
+          _$BusinessLocationResponseModelImpl
+        >
+    implements _$$BusinessLocationResponseModelImplCopyWith<$Res> {
+  __$$BusinessLocationResponseModelImplCopyWithImpl(
+    _$BusinessLocationResponseModelImpl _value,
+    $Res Function(_$BusinessLocationResponseModelImpl) _then,
   ) : super(_value, _then);
 
-  /// Create a copy of BusinessLocationModel
+  /// Create a copy of BusinessLocationResponseModel
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -147,7 +154,7 @@ class __$$BusinessLocationModelImplCopyWithImpl<$Res>
     Object? status = null,
   }) {
     return _then(
-      _$BusinessLocationModelImpl(
+      _$BusinessLocationResponseModelImpl(
         locationId: null == locationId
             ? _value.locationId
             : locationId // ignore: cast_nullable_to_non_nullable
@@ -175,17 +182,19 @@ class __$$BusinessLocationModelImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$BusinessLocationModelImpl implements _BusinessLocationModel {
-  const _$BusinessLocationModelImpl({
+class _$BusinessLocationResponseModelImpl
+    implements _BusinessLocationResponseModel {
+  const _$BusinessLocationResponseModelImpl({
     required this.locationId,
     required this.locationName,
     required this.contractNum,
     this.contractDt,
-    this.status = true,
+    required this.status,
   });
 
-  factory _$BusinessLocationModelImpl.fromJson(Map<String, dynamic> json) =>
-      _$$BusinessLocationModelImplFromJson(json);
+  factory _$BusinessLocationResponseModelImpl.fromJson(
+    Map<String, dynamic> json,
+  ) => _$$BusinessLocationResponseModelImplFromJson(json);
 
   @override
   final int locationId;
@@ -196,19 +205,18 @@ class _$BusinessLocationModelImpl implements _BusinessLocationModel {
   @override
   final DateTime? contractDt;
   @override
-  @JsonKey()
   final bool status;
 
   @override
   String toString() {
-    return 'BusinessLocationModel(locationId: $locationId, locationName: $locationName, contractNum: $contractNum, contractDt: $contractDt, status: $status)';
+    return 'BusinessLocationResponseModel(locationId: $locationId, locationName: $locationName, contractNum: $contractNum, contractDt: $contractDt, status: $status)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$BusinessLocationModelImpl &&
+            other is _$BusinessLocationResponseModelImpl &&
             (identical(other.locationId, locationId) ||
                 other.locationId == locationId) &&
             (identical(other.locationName, locationName) ||
@@ -231,35 +239,37 @@ class _$BusinessLocationModelImpl implements _BusinessLocationModel {
     status,
   );
 
-  /// Create a copy of BusinessLocationModel
+  /// Create a copy of BusinessLocationResponseModel
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$BusinessLocationModelImplCopyWith<_$BusinessLocationModelImpl>
+  _$$BusinessLocationResponseModelImplCopyWith<
+    _$BusinessLocationResponseModelImpl
+  >
   get copyWith =>
-      __$$BusinessLocationModelImplCopyWithImpl<_$BusinessLocationModelImpl>(
-        this,
-        _$identity,
-      );
+      __$$BusinessLocationResponseModelImplCopyWithImpl<
+        _$BusinessLocationResponseModelImpl
+      >(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$BusinessLocationModelImplToJson(this);
+    return _$$BusinessLocationResponseModelImplToJson(this);
   }
 }
 
-abstract class _BusinessLocationModel implements BusinessLocationModel {
-  const factory _BusinessLocationModel({
+abstract class _BusinessLocationResponseModel
+    implements BusinessLocationResponseModel {
+  const factory _BusinessLocationResponseModel({
     required final int locationId,
     required final String locationName,
     required final String contractNum,
     final DateTime? contractDt,
-    final bool status,
-  }) = _$BusinessLocationModelImpl;
+    required final bool status,
+  }) = _$BusinessLocationResponseModelImpl;
 
-  factory _BusinessLocationModel.fromJson(Map<String, dynamic> json) =
-      _$BusinessLocationModelImpl.fromJson;
+  factory _BusinessLocationResponseModel.fromJson(Map<String, dynamic> json) =
+      _$BusinessLocationResponseModelImpl.fromJson;
 
   @override
   int get locationId;
@@ -272,10 +282,12 @@ abstract class _BusinessLocationModel implements BusinessLocationModel {
   @override
   bool get status;
 
-  /// Create a copy of BusinessLocationModel
+  /// Create a copy of BusinessLocationResponseModel
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$BusinessLocationModelImplCopyWith<_$BusinessLocationModelImpl>
+  _$$BusinessLocationResponseModelImplCopyWith<
+    _$BusinessLocationResponseModelImpl
+  >
   get copyWith => throw _privateConstructorUsedError;
 }

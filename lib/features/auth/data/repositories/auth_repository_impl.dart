@@ -1,10 +1,10 @@
+import 'package:calender_test/core/storage/secure_storage_util.dart';
 import 'package:calender_test/features/auth/data/datasources/auth_remote_data_source.dart';
 import 'package:calender_test/features/auth/data/models/login_response_model.dart';
 import 'package:calender_test/features/auth/domain/repositories/auth_repository.dart';
 import 'package:calender_test/network/base_response.dart';
-import 'package:dio/dio.dart';
 
-// Implementation of AuthRepository
+/// AuthRepository 구현체
 class AuthRepositoryImpl implements AuthRepository {
   final AuthRemoteDataSource _remoteDataSource;
 
@@ -15,32 +15,49 @@ class AuthRepositoryImpl implements AuthRepository {
     String userId,
     String userPassword,
     String fcmToken,
-    String uuid,
   ) async {
-    try {
-      final response = await _remoteDataSource.login(
-        userId,
-        userPassword,
-        fcmToken,
-        uuid,
-      );
-      return response;
-    } on DioException catch (e) {
-      if (e.response?.data != null && e.response!.data['response'] != null) {
-        try {
-          final Map<String, dynamic> errorResponseData =
-              e.response!.data['response'] as Map<String, dynamic>;
-          return BaseResponse<LoginResponseModel>.fromJson(
-            errorResponseData,
-            (json) => LoginResponseModel.fromJson(json as Map<String, dynamic>),
-          );
-        } catch (parseError) {
-          throw Exception('Failed to parse error response: $parseError');
-        }
+    // RemoteDataSource에서 로그인 요청 (에러 처리도 RemoteDataSource에서 진행)
+    final response = await _remoteDataSource.login(
+      userId,
+      userPassword,
+      fcmToken,
+    );
+    
+    // 로그인 성공 시 SecureStorage에 정보 저장
+    if (response.code == 100 || response.code == 200) {
+      await SecureStorageUtil.saveLoginInfo(response.data);
+      
+      // 토큰 정보 저장 메서드 호출
+      String rule = '';
+      if (response.message.contains('rule:')) {
+        rule = response.message.split('rule:')[1].trim();
       }
-      throw Exception('Login failed: ${e.message}');
+      
+      await saveTokens(
+        accessToken: response.data.accessToken,
+        refreshToken: response.data.refreshToken,
+        rule: rule,
+      );
+    }
+    
+    return response;
+  }
+  
+  @override
+  Future<void> saveTokens({
+    required String accessToken,
+    required String refreshToken,
+    required String rule,
+  }) async {
+    try {
+      // SecureStorageUtil을 사용하여 토큰 정보 저장
+      await SecureStorageUtil.saveAccessToken(accessToken);
+      await SecureStorageUtil.saveRefreshToken(refreshToken);
+      if (rule.isNotEmpty) {
+        await SecureStorageUtil.saveRule(rule);
+      }
     } catch (e) {
-      throw Exception('An unexpected error occurred: $e');
+      throw Exception('토큰 저장 중 오류 발생: $e');
     }
   }
 }

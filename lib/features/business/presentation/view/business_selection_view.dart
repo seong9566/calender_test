@@ -1,12 +1,11 @@
 import 'package:calender_test/core/theme/app_theme.dart';
-import 'package:calender_test/features/business/data/models/business_location_model.dart';
+import 'package:calender_test/features/auth/presentation/viewmodels/login_viewmodel.dart';
+import 'package:calender_test/features/business/domain/entities/business_location_entity.dart';
 import 'package:calender_test/features/business/presentation/providers/business_providers_di.dart';
 import 'package:calender_test/features/business/presentation/viewmodels/business_selection_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-
-
 
 class BusinessSelectionView extends ConsumerStatefulWidget {
   const BusinessSelectionView({super.key});
@@ -17,34 +16,40 @@ class BusinessSelectionView extends ConsumerStatefulWidget {
 }
 
 class _BusinessSelectionViewState extends ConsumerState<BusinessSelectionView> {
-  BusinessLocationModel? _selectedLocation;
-  
+  BusinessLocationEntity? _selectedLocation;
+
   @override
   void initState() {
     super.initState();
-    // 화면 로드 시 사업장 목록 조회
-    Future.microtask(() => ref.read(businessSelectionViewModelProvider.notifier).getBusinessLocations());
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref
+          .read(businessSelectionViewModelProvider.notifier)
+          .getBusinessLocations();
+    });
   }
-  
-  void selectItem(BusinessLocationModel location) {
+
+  /// 사업장 선택 처리
+  void selectItem(BusinessLocationEntity location) {
     setState(() {
       _selectedLocation = location;
     });
     // ViewModel에 선택한 사업장 정보 전달
-    ref.read(businessSelectionViewModelProvider.notifier).selectLocation(location);
+    ref
+        .read(businessSelectionViewModelProvider.notifier)
+        .selectLocation(location);
   }
 
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(businessSelectionViewModelProvider);
-    
     return Scaffold(
       appBar: AppBar(title: Text('사업장 선택', style: titleStyle)),
       body: _buildBody(state),
       bottomNavigationBar: _bottomNavigationBar(state),
     );
   }
-  
+
   Widget _buildBody(BusinessSelectionState state) {
     switch (state.status) {
       case BusinessSelectionStatusEnum.initial:
@@ -58,11 +63,14 @@ class _BusinessSelectionViewState extends ConsumerState<BusinessSelectionView> {
               Text(
                 state.errorMessage ?? '오류가 발생했습니다',
                 style: const TextStyle(color: Colors.red),
+                textAlign: TextAlign.center,
               ),
               const SizedBox(height: 16),
               ElevatedButton(
                 onPressed: () {
-                  ref.read(businessSelectionViewModelProvider.notifier).getBusinessLocations();
+                  ref
+                      .read(businessSelectionViewModelProvider.notifier)
+                      .getBusinessLocations();
                 },
                 child: const Text('다시 시도'),
               ),
@@ -78,16 +86,64 @@ class _BusinessSelectionViewState extends ConsumerState<BusinessSelectionView> {
 
   Widget _bottomNavigationBar(BusinessSelectionState state) {
     final bool isButtonEnabled = state.selectedLocation != null;
-    
+
     return SafeArea(
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: defaultHPadding),
         child: ElevatedButton(
           onPressed: isButtonEnabled
-              ? () {
-                  print("확인 버튼 클릭: ${state.selectedLocation?.locationName}");
-                  // 선택한 사업장 정보 저장 후 캘린더 화면으로 이동
-                  context.goNamed('calendar');
+              ? () async {
+                  // 로딩 표시를 위한 다이얼로그 표시
+                  showDialog(
+                    context: context,
+                    barrierDismissible: false,
+                    builder: (context) =>
+                        const Center(child: CircularProgressIndicator()),
+                  );
+
+                  try {
+                    // 비동기로 사업장 추가 요청
+                    await ref
+                        .read(businessSelectionViewModelProvider.notifier)
+                        .addBusinessLocation(LoginStatusEnum.manager);
+
+                    // 현재 상태 확인
+                    final currentState = ref.read(
+                      businessSelectionViewModelProvider,
+                    );
+
+                    // 로딩 다이얼로그 닫기
+                    if (context.mounted) Navigator.of(context).pop();
+
+                    // 성공 시에만 화면 이동
+                    if (currentState.status ==
+                        BusinessSelectionStatusEnum.success) {
+                      if (context.mounted) context.goNamed('calendar');
+                    } else {
+                      // 실패 시 스낵바 표시
+                      if (context.mounted) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              currentState.errorMessage ?? '권한 추가에 실패했습니다',
+                            ),
+                            backgroundColor: Colors.red,
+                          ),
+                        );
+                      }
+                    }
+                  } catch (e) {
+                    // 예외 발생 시 로딩 다이얼로그 닫기 및 스낵바 표시
+                    if (context.mounted) Navigator.of(context).pop();
+                    if (context.mounted) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('오류가 발생했습니다: ${e.toString()}'),
+                          backgroundColor: Colors.red,
+                        ),
+                      );
+                    }
+                  }
                 }
               : null,
           style: ButtonStyle(
@@ -112,15 +168,17 @@ class _BusinessSelectionViewState extends ConsumerState<BusinessSelectionView> {
     );
   }
 
-  Widget _listViewWidget(List<BusinessLocationModel> locations) {
+  /// 사업장 목록 위젯 생성
+  Widget _listViewWidget(List<BusinessLocationEntity> locations) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: defaultHPadding),
       child: ListView.builder(
         itemCount: locations.length,
         itemBuilder: (context, index) {
           final location = locations[index];
-          final isSelected = _selectedLocation?.locationId == location.locationId;
-          
+          final isSelected =
+              _selectedLocation?.locationId == location.locationId;
+
           return selectCardItem(
             location.locationName,
             location.contractNum,

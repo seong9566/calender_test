@@ -20,4 +20,7 @@ class ApiEndPoint {
 
   /// 사업장 목록 조회
   static const String businessLocations = "v1/Login/M/sign/MyLocationList";
+
+  /// 사업장 추가
+  static const String addUserLocationPermission = "v1/Login/M/sign/Permission";
 }

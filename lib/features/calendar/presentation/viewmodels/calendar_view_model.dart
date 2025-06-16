@@ -2,8 +2,7 @@ import 'package:calender_test/features/calendar/data/models/todo_model.dart';
 import 'package:calender_test/features/calendar/domain/entities/calendar_event_entity.dart';
 import 'package:calender_test/features/calendar/domain/usecases/get_events_by_date_range_usecase.dart';
 import 'package:calender_test/features/calendar/domain/usecases/get_events_usecase.dart';
-import 'package:calender_test/features/calendar/presentation/viewmodels/calendar_dummy_data.dart';
-import 'package:flutter/material.dart';
+import 'package:calender_test/features/calendar/dev_utils/calendar_dummy_data.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// 캘린더 상태
@@ -54,8 +53,8 @@ class CalendarState {
       selectedDate: selectedDate,
     );
   }
-  
-  /// 일반 상태 업데이트 
+
+  /// 일반 상태 업데이트
   CalendarState copyWith({
     bool? isLoading,
     List<CalendarEventEntity>? events,
@@ -82,13 +81,13 @@ class CalendarViewModel extends StateNotifier<CalendarState> {
   CalendarViewModel({
     required GetEventsUseCase getEventsUseCase,
     required GetEventsByDateRangeUseCase getEventsByDateRangeUseCase,
-  })  : _getEventsUseCase = getEventsUseCase,
-        _getEventsByDateRangeUseCase = getEventsByDateRangeUseCase,
-        super(const CalendarState()) {
+  }) : _getEventsUseCase = getEventsUseCase,
+       _getEventsByDateRangeUseCase = getEventsByDateRangeUseCase,
+       super(const CalendarState()) {
     // 초기 상태 설정
     initState();
   }
-  
+
   /// 초기 상태 설정
   void initState() {
     // 더미 Todo 데이터로 초기화
@@ -122,7 +121,7 @@ class CalendarViewModel extends StateNotifier<CalendarState> {
     final now = DateTime.now();
     final firstDayOfMonth = DateTime(now.year, now.month, 1);
     final lastDayOfMonth = DateTime(now.year, now.month + 1, 0);
-    
+
     await loadEventsByDateRange(firstDayOfMonth, lastDayOfMonth);
   }
 
@@ -139,7 +138,7 @@ class CalendarViewModel extends StateNotifier<CalendarState> {
     }).toList();
   }
   //--------------- Todo 관련 메서드 ---------------//
-  
+
   /// TODO 체크
   void checkTodo(int index, bool value) {
     /// 1. 변경할 TODO
@@ -200,7 +199,7 @@ class CalendarViewModel extends StateNotifier<CalendarState> {
 
     state = state.copyWith(todoList: updatedTodoList);
   }
-  
+
   /// 특정 날짜의 Todo 목록 가져오기 (향후 날짜별 필터링 기능 구현 시 사용)
   List<TodoModel> getTodosForSelectedDate() {
     // 현재는 모든 Todo를 반환하지만, 향후 날짜별 필터링 로직 추가 가능
