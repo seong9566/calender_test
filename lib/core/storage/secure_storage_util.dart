@@ -31,16 +31,19 @@ class SecureStorageUtil {
     }
     try {
       // JSON 문자열을 Map<String, dynamic>으로 변환 후 모델 객체로 변환
-      final Map<String, dynamic> jsonMap = jsonDecode(jsonString) as Map<String, dynamic>;
+      final Map<String, dynamic> jsonMap =
+          jsonDecode(jsonString) as Map<String, dynamic>;
       return LoginResponseModel.fromJson(jsonMap);
     } catch (e) {
       print('로그인 정보 파싱 오류: $e');
       return null;
     }
   }
-  
+
   /// 사용자 권한 정보를 SecureStorage에 저장
-  static Future<void> saveUserPermission(UserPermissionResponseModel userPermission) async {
+  static Future<void> saveUserPermission(
+    UserPermissionResponseModel userPermission,
+  ) async {
     // Map<String, dynamic>을 JSON 문자열로 변환하여 저장
     final String jsonString = jsonEncode(userPermission.toJson());
     await _storage.write(key: _userPermissionKey, value: jsonString);
@@ -54,7 +57,8 @@ class SecureStorageUtil {
     }
     try {
       // JSON 문자열을 Map<String, dynamic>으로 변환 후 모델 객체로 변환
-      final Map<String, dynamic> jsonMap = jsonDecode(jsonString) as Map<String, dynamic>;
+      final Map<String, dynamic> jsonMap =
+          jsonDecode(jsonString) as Map<String, dynamic>;
       return UserPermissionResponseModel.fromJson(jsonMap);
     } catch (e) {
       print('사용자 권한 정보 파싱 오류: $e');

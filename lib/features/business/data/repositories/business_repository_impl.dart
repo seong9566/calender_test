@@ -15,7 +15,7 @@ class BusinessRepositoryImpl implements BusinessRepository {
   getBusinessLocations() async {
     // RemoteDataSource에서 ResponseModel을 가져옴
     final response = await _remoteDataSource.getBusinessLocations();
-
+    print("response : $response");
     // ResponseModel을 Entity로 변환하여 반환
     // 여기서 데이터 계층(ResponseModel)에서 도메인 계층(Entity)으로의 변환이 이루어짐
     return BaseResponse<List<BusinessLocationEntity>>(

@@ -29,7 +29,6 @@ class BusinessRemoteDataSourceImpl implements BusinessRemoteDataSource {
       final response = await _dioClient.get(ApiEndPoint.businessLocations);
       final Map<String, dynamic> responseData =
           response.data as Map<String, dynamic>;
-
       return BaseResponse.fromJson(
         responseData,
         (json) => (json as List)

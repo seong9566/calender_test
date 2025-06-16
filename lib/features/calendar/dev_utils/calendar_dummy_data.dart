@@ -1,6 +1,5 @@
 import 'package:calender_test/features/calendar/data/models/todo_model.dart';
 
-/// 더미 Todo 데이터
 final List<TodoModel> dummyTodos = [
   // 1. 사업장 할 일 (관리자가 작성한 일정)
   TodoModel(
@@ -118,4 +117,3 @@ final List<TodoModel> dummyTodos = [
     ],
   ),
 ];
-

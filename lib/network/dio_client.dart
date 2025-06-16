@@ -4,12 +4,25 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'dart:io' show Platform;
 
+/// DioClient
+///
+/// 공통으로 사용할 DioClient singleton 인스턴스를 반환하는 factory method를 포함합니다.
+///
+/// * [baseUrl] : ApiEndPoint.baseUrl
+/// * [connectTimeout], [receiveTimeout] : 15초
+/// * [headers] :
+///   - 'Content-Type': 'application/json'
+///   - "X-Device-OS": Platform.isIOS ? 'iOS' : 'AOS'
+///
+/// [onError] 인터셉터 :
+/// 409 Conflict 응답 시 SecureStorageUtil.clearAll() 호출하여 토큰 삭제,
+/// onLogout callback 호출
 class DioClient {
   static final DioClient _instance = DioClient._internal();
   factory DioClient() => _instance;
 
   late final Dio dio;
-  
+
   // 기기 OS 정보 (한 번만 초기화)
   final String deviceOS = Platform.isIOS ? 'iOS' : 'AOS';
 
@@ -22,10 +35,7 @@ class DioClient {
         baseUrl: ApiEndPoint.baseUrl,
         connectTimeout: const Duration(seconds: 15),
         receiveTimeout: const Duration(seconds: 15),
-        headers: {
-          'Content-Type': 'application/json',
-          "X-Device-OS": deviceOS,
-        },
+        headers: {'Content-Type': 'application/json', "X-Device-OS": deviceOS},
       ),
     );
 
@@ -40,9 +50,8 @@ class DioClient {
           handler.next(options);
         },
         onError: (e, handler) async {
-          // 401 Unauthorized 처리: 토큰 만료시 자동 로그아웃 및 토큰 삭제
-          if (e.response?.statusCode == 401) {
-            await SecureStorageUtil.clearAll();
+          // 409 Conflict 처리: 토큰 만료시 자동 로그아웃 및 토큰 삭제
+          if (e.response?.statusCode.toString().contains("409") == true) {
             if (onLogout != null) onLogout!();
           }
           handler.next(e);
@@ -56,6 +65,9 @@ class DioClient {
     String path, {
     Map<String, dynamic>? queryParameters,
   }) async {
+    debugPrint(
+      "[Debug] dio Get : header : ${dio.options.headers}, path : $path, queryParameters : $queryParameters",
+    );
     return await dio.get(path, queryParameters: queryParameters);
   }
 
@@ -64,10 +76,9 @@ class DioClient {
     dynamic data,
     Map<String, dynamic>? queryParameters,
   }) async {
-    debugPrint("[Debug] dio Post : path : $path");
-    debugPrint("[Debug] dio Post : data : $data");
-    debugPrint("[Debug] dio Post : header : ${dio.options.baseUrl}");
-    debugPrint("[Debug] dio Post : header : ${dio.options.headers}");
+    debugPrint(
+      "[Debug] dio Post : header : ${dio.options.headers}, path : $path, data : $data , queryParameters : $queryParameters",
+    );
     return await dio.post(path, data: data, queryParameters: queryParameters);
   }
 
@@ -76,6 +87,9 @@ class DioClient {
     dynamic data,
     Map<String, dynamic>? queryParameters,
   }) async {
+    debugPrint(
+      "[Debug] dio Put : header : ${dio.options.headers}, path : $path, data : $data , queryParameters : $queryParameters",
+    );
     return await dio.put(path, data: data, queryParameters: queryParameters);
   }
 
@@ -84,6 +98,9 @@ class DioClient {
     dynamic data,
     Map<String, dynamic>? queryParameters,
   }) async {
+    debugPrint(
+      "[Debug] dio Delete : header : ${dio.options.headers}, path : $path, data : $data , queryParameters : $queryParameters",
+    );
     return await dio.delete(path, data: data, queryParameters: queryParameters);
   }
 }

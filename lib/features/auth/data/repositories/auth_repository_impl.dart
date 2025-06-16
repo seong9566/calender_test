@@ -3,6 +3,8 @@ import 'package:calender_test/features/auth/data/datasources/auth_remote_data_so
 import 'package:calender_test/features/auth/data/models/login_response_model.dart';
 import 'package:calender_test/features/auth/domain/repositories/auth_repository.dart';
 import 'package:calender_test/network/base_response.dart';
+import 'package:calender_test/routers.dart';
+import 'package:go_router/go_router.dart';
 
 /// AuthRepository 구현체
 class AuthRepositoryImpl implements AuthRepository {
@@ -22,27 +24,27 @@ class AuthRepositoryImpl implements AuthRepository {
       userPassword,
       fcmToken,
     );
-    
+
     // 로그인 성공 시 SecureStorage에 정보 저장
     if (response.code == 100 || response.code == 200) {
       await SecureStorageUtil.saveLoginInfo(response.data);
-      
+
       // 토큰 정보 저장 메서드 호출
       String rule = '';
       if (response.message.contains('rule:')) {
         rule = response.message.split('rule:')[1].trim();
       }
-      
+
       await saveTokens(
         accessToken: response.data.accessToken,
         refreshToken: response.data.refreshToken,
         rule: rule,
       );
     }
-    
+
     return response;
   }
-  
+
   @override
   Future<void> saveTokens({
     required String accessToken,
@@ -58,6 +60,14 @@ class AuthRepositoryImpl implements AuthRepository {
       }
     } catch (e) {
       throw Exception('토큰 저장 중 오류 발생: $e');
+    }
+  }
+
+  @override
+  Future<void> logout() async {
+    await SecureStorageUtil.clearAll();
+    if (rootNavKey.currentContext != null) {
+      rootNavKey.currentContext!.go('/login');
     }
   }
 }

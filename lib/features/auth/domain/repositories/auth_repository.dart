@@ -9,11 +9,13 @@ abstract class AuthRepository {
     String userPassword,
     String fcmToken,
   );
-  
+
   /// 토큰 정보 저장
   Future<void> saveTokens({
     required String accessToken,
     required String refreshToken,
     required String rule,
   });
+
+  Future<void> logout();
 }
