@@ -32,24 +32,6 @@ class LoginViewModel extends StateNotifier<LoginStatus> {
 
   LoginViewModel(this._loginUseCase) : super(LoginStatus.initial());
 
-  bool validateUserId(String userId) {
-    final bool isValid = userId.isNotEmpty;
-
-    if (!isValid) {
-      return false;
-    }
-
-    return true;
-  }
-
-  bool validatePassword(String password) {
-    final bool isValid = password.isNotEmpty;
-    if (!isValid) {
-      return false;
-    }
-    return true;
-  }
-
   /// 로그인
   Future<void> login(String userId, String userPassword) async {
     // 1. 로딩 상태로 변경

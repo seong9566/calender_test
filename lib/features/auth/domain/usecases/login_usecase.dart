@@ -26,13 +26,10 @@ class LoginUseCase {
       // 입력값 검증
       _validateLoginInputs(userId, userPassword);
 
-      // 아이디 정규화 (공백 제거)
-      final normalizedUserId = _normalizeUserId(userId);
-
       // 저장소를 통한 로그인 요청
       final response = await _repository.login(
-        normalizedUserId,
-        userPassword,
+        userId.trim(),
+        userPassword.trim(),
         fcmToken,
       );
 
@@ -46,31 +43,33 @@ class LoginUseCase {
   }
 
   void _validateLoginInputs(String userId, String userPassword) {
-    if (userId.isEmpty) {
+    if (userId.trim().isEmpty) {
       throw ArgumentError('아이디를 입력해주세요.');
     }
 
-    if (userPassword.isEmpty) {
+    if (userPassword.trim().isEmpty) {
       throw ArgumentError('비밀번호를 입력해주세요.');
     }
-  }
-
-  String _normalizeUserId(String userId) {
-    return userId.trim();
   }
 
   LoginResult _processLoginResponse(BaseResponse<LoginResponseModel> response) {
     switch (response.code) {
       case 100:
-      case 200:
-        // 관리자(100) 또는 일반 사용자(200) 로그인 성공
         final rule = _extractRuleFromMessage(response.message);
-        final resultType = response.code == 100
-            ? LoginResultType.manager
-            : LoginResultType.user;
-
+        // 관리자 로그인 성공
         return LoginResult.success(
-          type: resultType,
+          type: LoginResultType.manager,
+          accessToken: response.data.accessToken,
+          refreshToken: response.data.refreshToken,
+          rule: rule,
+          code: response.code,
+        );
+
+      case 200:
+        // 일반 사용자 로그인 성공
+        final rule = _extractRuleFromMessage(response.message);
+        return LoginResult.success(
+          type: LoginResultType.user,
           accessToken: response.data.accessToken,
           refreshToken: response.data.refreshToken,
           rule: rule,

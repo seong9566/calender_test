@@ -51,23 +51,22 @@ class AuthRepositoryImpl implements AuthRepository {
     required String refreshToken,
     required String rule,
   }) async {
-    try {
-      // SecureStorageUtil을 사용하여 토큰 정보 저장
-      await SecureStorageUtil.saveAccessToken(accessToken);
-      await SecureStorageUtil.saveRefreshToken(refreshToken);
-      if (rule.isNotEmpty) {
-        await SecureStorageUtil.saveRule(rule);
-      }
-    } catch (e) {
-      throw Exception('토큰 저장 중 오류 발생: $e');
+    // SecureStorageUtil을 사용하여 토큰 정보 저장
+    await SecureStorageUtil.saveAccessToken(accessToken);
+    await SecureStorageUtil.saveRefreshToken(refreshToken);
+    if (rule.isNotEmpty) {
+      await SecureStorageUtil.saveRule(rule);
     }
   }
 
+  // 토큰에 의한 로그아웃 특성상 앱 전역에서 사용해야하기 때문에 Repo에서 정의
   @override
   Future<void> logout() async {
     await SecureStorageUtil.clearAll();
     if (rootNavKey.currentContext != null) {
       rootNavKey.currentContext!.go('/login');
+    } else {
+      print("[AuthRepositoryImpl] logout: 네비게이션 컨텍스트 없음");
     }
   }
 }

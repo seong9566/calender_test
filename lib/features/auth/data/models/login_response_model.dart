@@ -12,4 +12,7 @@ class LoginResponseModel with _$LoginResponseModel {
 
   factory LoginResponseModel.fromJson(Map<String, dynamic> json) =>
       _$LoginResponseModelFromJson(json);
+
+  factory LoginResponseModel.empty() =>
+      LoginResponseModel(accessToken: '', refreshToken: '');
 }
