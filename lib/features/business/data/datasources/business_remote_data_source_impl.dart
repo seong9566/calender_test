@@ -1,15 +1,18 @@
 import 'package:calender_test/features/business/data/models/business_location_response_model.dart';
 import 'package:calender_test/features/business/data/models/user_permission_response_model.dart';
 import 'package:calender_test/features/business/data/datasources/business_remote_data_source.dart';
-import 'package:calender_test/network/dio_provider.dart';
- 
+import 'package:calender_test/network/api_endpoint.dart';
+import 'package:calender_test/network/api_error.dart';
+import 'package:calender_test/network/base_response.dart';
+import 'package:calender_test/network/dio_client.dart';
+import 'package:dio/dio.dart';
 
 class BusinessRemoteDataSourceImpl implements BusinessRemoteDataSource {
   final DioClient _dioClient;
 
   BusinessRemoteDataSourceImpl(this._dioClient);
 
-  @override 
+  @override
   Future<BaseResponse<List<BusinessLocationResponseModel>>>
   getBusinessLocations() async {
     try {
@@ -19,11 +22,11 @@ class BusinessRemoteDataSourceImpl implements BusinessRemoteDataSource {
       return BaseResponse.fromJson(
         responseData,
         (json) => (json as List)
-            .map( 
+            .map(
               (item) => BusinessLocationResponseModel.fromJson(
                 item as Map<String, dynamic>,
               ),
-            ) 
+            )
             .toList(),
       );
     } on DioException catch (e) {

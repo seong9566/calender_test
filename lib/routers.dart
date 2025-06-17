@@ -14,7 +14,7 @@ final GlobalKey<NavigatorState> shellNavKey = GlobalKey<NavigatorState>();
 final router = GoRouter(
   // initialLocation: '/calendar',
   navigatorKey: rootNavKey,
-  initialLocation: '/login',
+  initialLocation: '/calendar',
   routes: [
     // 로그인 화면
     GoRoute(

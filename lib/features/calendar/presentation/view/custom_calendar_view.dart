@@ -1,4 +1,5 @@
 import 'package:calender_test/core/theme/app_theme.dart';
+import 'package:calender_test/features/calendar/presentation/view/widgets/calendar_drag_example.dart';
 import 'package:calender_test/features/calendar/presentation/view/widgets/todo_list_view.dart';
 import 'package:flutter/material.dart';
 
@@ -51,11 +52,10 @@ class _CustomCalendarViewState extends State<CustomCalendarView>
         child: TabBarView(
           controller: tabController,
           children: [
-            // TODO List
-            DayTodoListView(),
-
-            /// Week
-            Center(child: Text("주간")),
+            TodoListView(),
+            CalendarDragDropExample(),
+            // /// Week
+            // Center(child: Text("주간")),
 
             /// Month
             Center(child: Text("월별")),

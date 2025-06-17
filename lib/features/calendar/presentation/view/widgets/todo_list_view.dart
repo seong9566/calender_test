@@ -1,24 +1,22 @@
 import 'package:calender_test/core/extension/date_time_formatt_extension.dart';
-import 'package:calender_test/features/auth/presentation/providers/auth_providers_di.dart';
 import 'package:calender_test/features/business/presentation/providers/business_providers_di.dart';
 import 'package:calender_test/features/calendar/data/models/todo_model.dart';
 import 'package:calender_test/features/calendar/presentation/providers/calendar_providers_di.dart';
 import 'package:calender_test/features/calendar/presentation/view/widgets/todo_animation_contents.dart';
-import 'package:calender_test/features/calendar/presentation/view/widgets/todo_card_item.dart';
 import 'package:calender_test/features/calendar/presentation/view/widgets/todo_detail_bottom_sheet.dart';
 import 'package:calender_test/features/calendar/presentation/view/widgets/todo_sliver_header_delegate.dart';
 import 'package:calender_test/features/provider/date/date_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class DayTodoListView extends ConsumerStatefulWidget {
-  const DayTodoListView({super.key});
+class TodoListView extends ConsumerStatefulWidget {
+  const TodoListView({super.key});
 
   @override
-  ConsumerState<DayTodoListView> createState() => _DayTodoListViewState();
+  ConsumerState<TodoListView> createState() => _TodoListViewState();
 }
 
-class _DayTodoListViewState extends ConsumerState<DayTodoListView> {
+class _TodoListViewState extends ConsumerState<TodoListView> {
   bool isChecked = false;
   ScrollController scrollController = ScrollController();
   bool _businessExpanded = true;
@@ -108,12 +106,9 @@ class _DayTodoListViewState extends ConsumerState<DayTodoListView> {
             isExpanded: _businessExpanded,
             todos: businessTodos,
             onTap: (index) {
-              print("asd");
               ref
                   .read(businessSelectionViewModelProvider.notifier)
                   .getBusinessLocations();
-              // final originalIndex = todos.indexOf(businessTodos[index]);
-              // showTodoDetailBottomSheet(context, originalIndex);
             },
             onChanged: (index, value) {
               final originalIndex = todos.indexOf(businessTodos[index]);

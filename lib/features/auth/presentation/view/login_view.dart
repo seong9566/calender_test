@@ -55,7 +55,7 @@ class _LoginViewState extends ConsumerState<LoginView> {
         // 오류 메시지 표시 (예: SnackBar)
         ScaffoldMessenger.of(
           context,
-        ).showSnackBar(SnackBar(content: Text("로그인 실패")));
+        ).showSnackBar(SnackBar(content: Text(next.errorMessage ?? "")));
       }
     });
 

@@ -1,8 +1,5 @@
 import 'package:calender_test/features/calendar/data/models/calendar_response_model.dart';
-import 'package:calender_test/network/api_error.dart';
 import 'package:calender_test/network/base_response.dart';
-import 'package:calender_test/network/dio_client.dart';
-import 'package:dio/dio.dart';
 
 /// 캘린더 원격 데이터 소스 인터페이스
 ///
