@@ -1,3 +1,4 @@
+import 'package:calender_test/features/business/domain/entities/business_location_entity.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'business_location_response_model.freezed.dart';
@@ -27,4 +28,16 @@ class BusinessLocationResponseModel with _$BusinessLocationResponseModel {
       ),
     ];
   }
+}
+
+extension BusinessLocationResponseModelExtension
+    on BusinessLocationResponseModel {
+  BusinessLocationEntity toEntity() => BusinessLocationEntity(
+    locationId: locationId,
+    locationName: locationName,
+    contractNum: contractNum,
+    contractDt: contractDt,
+    status: status,
+    isSelected: false,
+  );
 }
