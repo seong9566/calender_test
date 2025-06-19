@@ -4,6 +4,8 @@ import 'package:calender_test/features/auth/domain/repositories/auth_repository.
 import 'package:calender_test/network/base_response.dart';
 import 'dart:async';
 
+import 'package:dio/dio.dart';
+
 /// 로그인 유스케이스
 class LoginUseCase {
   final AuthRepository _repository;

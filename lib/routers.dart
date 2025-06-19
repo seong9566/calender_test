@@ -1,3 +1,4 @@
+import 'package:calender_test/features/auth/presentation/view/password_change_view.dart';
 import 'package:calender_test/features/base/presentation/base_view.dart';
 import 'package:calender_test/features/business/presentation/view/business_selection_view.dart';
 import 'package:calender_test/features/calendar/presentation/view/custom_calendar_view.dart';
@@ -14,13 +15,20 @@ final GlobalKey<NavigatorState> shellNavKey = GlobalKey<NavigatorState>();
 final router = GoRouter(
   // initialLocation: '/calendar',
   navigatorKey: rootNavKey,
-  initialLocation: '/calendar',
+  initialLocation: '/login',
   routes: [
     // 로그인 화면
     GoRoute(
       path: '/login',
       name: 'login',
       builder: (context, state) => LoginView(),
+    ),
+
+    // 비밀번호 변경 화면
+    GoRoute(
+      path: '/password-change',
+      name: 'password-change',
+      builder: (context, state) => PasswordChangeView(),
     ),
 
     // 사업장 선택
