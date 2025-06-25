@@ -1,9 +1,12 @@
+import 'dart:convert';
+
 import 'package:calender_test/features/calendar/data/datasources/calendar_remote_data_source.dart';
 import 'package:calender_test/features/calendar/data/models/calendar_response_model.dart';
 import 'package:calender_test/network/api_error.dart';
 import 'package:calender_test/network/base_response.dart';
 import 'package:calender_test/network/dio_client.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/services.dart';
 
 /// 캘린더 원격 데이터 소스 구현체
 class CalendarRemoteDataSourceImpl implements CalendarRemoteDataSource {
@@ -14,9 +17,14 @@ class CalendarRemoteDataSourceImpl implements CalendarRemoteDataSource {
   @override
   Future<BaseResponse<List<CalendarResponseModel>>> getEvents() async {
     try {
-      final response = await _dioClient.get('/events');
+      // final response = await _dioClient.get('/events');
+      final jsonString = await rootBundle.loadString(
+        'assets/json/calendar_example.json',
+      );
+
+      final response = jsonDecode(jsonString);
       final Map<String, dynamic> responseData =
-          response.data as Map<String, dynamic>;
+          response as Map<String, dynamic>;
 
       return BaseResponse.fromJson(
         responseData,

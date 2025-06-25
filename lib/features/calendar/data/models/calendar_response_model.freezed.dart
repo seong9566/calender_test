@@ -23,14 +23,17 @@ CalendarResponseModel _$CalendarResponseModelFromJson(
 
 /// @nodoc
 mixin _$CalendarResponseModel {
-  String get id => throw _privateConstructorUsedError;
+  String get scheduleId => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
-  DateTime get startTime => throw _privateConstructorUsedError;
-  DateTime get endTime => throw _privateConstructorUsedError;
-  @JsonKey(includeToJson: false, includeFromJson: false)
-  Color get color => throw _privateConstructorUsedError;
+  int get siteId => throw _privateConstructorUsedError;
+  int get clientId => throw _privateConstructorUsedError;
+  int get codeId => throw _privateConstructorUsedError;
   bool get isAllDay => throw _privateConstructorUsedError;
+  DateTime get startDate => throw _privateConstructorUsedError;
+  DateTime get endDate => throw _privateConstructorUsedError;
+  String get viewColor => throw _privateConstructorUsedError;
+  bool get alarmYn => throw _privateConstructorUsedError;
 
   /// Serializes this CalendarResponseModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -50,13 +53,17 @@ abstract class $CalendarResponseModelCopyWith<$Res> {
   ) = _$CalendarResponseModelCopyWithImpl<$Res, CalendarResponseModel>;
   @useResult
   $Res call({
-    String id,
+    String scheduleId,
     String title,
     String description,
-    DateTime startTime,
-    DateTime endTime,
-    @JsonKey(includeToJson: false, includeFromJson: false) Color color,
+    int siteId,
+    int clientId,
+    int codeId,
     bool isAllDay,
+    DateTime startDate,
+    DateTime endDate,
+    String viewColor,
+    bool alarmYn,
   });
 }
 
@@ -78,19 +85,23 @@ class _$CalendarResponseModelCopyWithImpl<
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
+    Object? scheduleId = null,
     Object? title = null,
     Object? description = null,
-    Object? startTime = null,
-    Object? endTime = null,
-    Object? color = null,
+    Object? siteId = null,
+    Object? clientId = null,
+    Object? codeId = null,
     Object? isAllDay = null,
+    Object? startDate = null,
+    Object? endDate = null,
+    Object? viewColor = null,
+    Object? alarmYn = null,
   }) {
     return _then(
       _value.copyWith(
-            id: null == id
-                ? _value.id
-                : id // ignore: cast_nullable_to_non_nullable
+            scheduleId: null == scheduleId
+                ? _value.scheduleId
+                : scheduleId // ignore: cast_nullable_to_non_nullable
                       as String,
             title: null == title
                 ? _value.title
@@ -100,21 +111,37 @@ class _$CalendarResponseModelCopyWithImpl<
                 ? _value.description
                 : description // ignore: cast_nullable_to_non_nullable
                       as String,
-            startTime: null == startTime
-                ? _value.startTime
-                : startTime // ignore: cast_nullable_to_non_nullable
-                      as DateTime,
-            endTime: null == endTime
-                ? _value.endTime
-                : endTime // ignore: cast_nullable_to_non_nullable
-                      as DateTime,
-            color: null == color
-                ? _value.color
-                : color // ignore: cast_nullable_to_non_nullable
-                      as Color,
+            siteId: null == siteId
+                ? _value.siteId
+                : siteId // ignore: cast_nullable_to_non_nullable
+                      as int,
+            clientId: null == clientId
+                ? _value.clientId
+                : clientId // ignore: cast_nullable_to_non_nullable
+                      as int,
+            codeId: null == codeId
+                ? _value.codeId
+                : codeId // ignore: cast_nullable_to_non_nullable
+                      as int,
             isAllDay: null == isAllDay
                 ? _value.isAllDay
                 : isAllDay // ignore: cast_nullable_to_non_nullable
+                      as bool,
+            startDate: null == startDate
+                ? _value.startDate
+                : startDate // ignore: cast_nullable_to_non_nullable
+                      as DateTime,
+            endDate: null == endDate
+                ? _value.endDate
+                : endDate // ignore: cast_nullable_to_non_nullable
+                      as DateTime,
+            viewColor: null == viewColor
+                ? _value.viewColor
+                : viewColor // ignore: cast_nullable_to_non_nullable
+                      as String,
+            alarmYn: null == alarmYn
+                ? _value.alarmYn
+                : alarmYn // ignore: cast_nullable_to_non_nullable
                       as bool,
           )
           as $Val,
@@ -132,13 +159,17 @@ abstract class _$$CalendarResponseModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call({
-    String id,
+    String scheduleId,
     String title,
     String description,
-    DateTime startTime,
-    DateTime endTime,
-    @JsonKey(includeToJson: false, includeFromJson: false) Color color,
+    int siteId,
+    int clientId,
+    int codeId,
     bool isAllDay,
+    DateTime startDate,
+    DateTime endDate,
+    String viewColor,
+    bool alarmYn,
   });
 }
 
@@ -157,19 +188,23 @@ class __$$CalendarResponseModelImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
+    Object? scheduleId = null,
     Object? title = null,
     Object? description = null,
-    Object? startTime = null,
-    Object? endTime = null,
-    Object? color = null,
+    Object? siteId = null,
+    Object? clientId = null,
+    Object? codeId = null,
     Object? isAllDay = null,
+    Object? startDate = null,
+    Object? endDate = null,
+    Object? viewColor = null,
+    Object? alarmYn = null,
   }) {
     return _then(
       _$CalendarResponseModelImpl(
-        id: null == id
-            ? _value.id
-            : id // ignore: cast_nullable_to_non_nullable
+        scheduleId: null == scheduleId
+            ? _value.scheduleId
+            : scheduleId // ignore: cast_nullable_to_non_nullable
                   as String,
         title: null == title
             ? _value.title
@@ -179,21 +214,37 @@ class __$$CalendarResponseModelImplCopyWithImpl<$Res>
             ? _value.description
             : description // ignore: cast_nullable_to_non_nullable
                   as String,
-        startTime: null == startTime
-            ? _value.startTime
-            : startTime // ignore: cast_nullable_to_non_nullable
-                  as DateTime,
-        endTime: null == endTime
-            ? _value.endTime
-            : endTime // ignore: cast_nullable_to_non_nullable
-                  as DateTime,
-        color: null == color
-            ? _value.color
-            : color // ignore: cast_nullable_to_non_nullable
-                  as Color,
+        siteId: null == siteId
+            ? _value.siteId
+            : siteId // ignore: cast_nullable_to_non_nullable
+                  as int,
+        clientId: null == clientId
+            ? _value.clientId
+            : clientId // ignore: cast_nullable_to_non_nullable
+                  as int,
+        codeId: null == codeId
+            ? _value.codeId
+            : codeId // ignore: cast_nullable_to_non_nullable
+                  as int,
         isAllDay: null == isAllDay
             ? _value.isAllDay
             : isAllDay // ignore: cast_nullable_to_non_nullable
+                  as bool,
+        startDate: null == startDate
+            ? _value.startDate
+            : startDate // ignore: cast_nullable_to_non_nullable
+                  as DateTime,
+        endDate: null == endDate
+            ? _value.endDate
+            : endDate // ignore: cast_nullable_to_non_nullable
+                  as DateTime,
+        viewColor: null == viewColor
+            ? _value.viewColor
+            : viewColor // ignore: cast_nullable_to_non_nullable
+                  as String,
+        alarmYn: null == alarmYn
+            ? _value.alarmYn
+            : alarmYn // ignore: cast_nullable_to_non_nullable
                   as bool,
       ),
     );
@@ -204,39 +255,48 @@ class __$$CalendarResponseModelImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$CalendarResponseModelImpl extends _CalendarResponseModel {
   const _$CalendarResponseModelImpl({
-    required this.id,
+    required this.scheduleId,
     required this.title,
     required this.description,
-    required this.startTime,
-    required this.endTime,
-    @JsonKey(includeToJson: false, includeFromJson: false)
-    this.color = Colors.blue,
-    this.isAllDay = false,
+    required this.siteId,
+    required this.clientId,
+    required this.codeId,
+    required this.isAllDay,
+    required this.startDate,
+    required this.endDate,
+    required this.viewColor,
+    required this.alarmYn,
   }) : super._();
 
   factory _$CalendarResponseModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$CalendarResponseModelImplFromJson(json);
 
   @override
-  final String id;
+  final String scheduleId;
   @override
   final String title;
   @override
   final String description;
   @override
-  final DateTime startTime;
+  final int siteId;
   @override
-  final DateTime endTime;
+  final int clientId;
   @override
-  @JsonKey(includeToJson: false, includeFromJson: false)
-  final Color color;
+  final int codeId;
   @override
-  @JsonKey()
   final bool isAllDay;
+  @override
+  final DateTime startDate;
+  @override
+  final DateTime endDate;
+  @override
+  final String viewColor;
+  @override
+  final bool alarmYn;
 
   @override
   String toString() {
-    return 'CalendarResponseModel(id: $id, title: $title, description: $description, startTime: $startTime, endTime: $endTime, color: $color, isAllDay: $isAllDay)';
+    return 'CalendarResponseModel(scheduleId: $scheduleId, title: $title, description: $description, siteId: $siteId, clientId: $clientId, codeId: $codeId, isAllDay: $isAllDay, startDate: $startDate, endDate: $endDate, viewColor: $viewColor, alarmYn: $alarmYn)';
   }
 
   @override
@@ -244,29 +304,40 @@ class _$CalendarResponseModelImpl extends _CalendarResponseModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$CalendarResponseModelImpl &&
-            (identical(other.id, id) || other.id == id) &&
+            (identical(other.scheduleId, scheduleId) ||
+                other.scheduleId == scheduleId) &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.description, description) ||
                 other.description == description) &&
-            (identical(other.startTime, startTime) ||
-                other.startTime == startTime) &&
-            (identical(other.endTime, endTime) || other.endTime == endTime) &&
-            (identical(other.color, color) || other.color == color) &&
+            (identical(other.siteId, siteId) || other.siteId == siteId) &&
+            (identical(other.clientId, clientId) ||
+                other.clientId == clientId) &&
+            (identical(other.codeId, codeId) || other.codeId == codeId) &&
             (identical(other.isAllDay, isAllDay) ||
-                other.isAllDay == isAllDay));
+                other.isAllDay == isAllDay) &&
+            (identical(other.startDate, startDate) ||
+                other.startDate == startDate) &&
+            (identical(other.endDate, endDate) || other.endDate == endDate) &&
+            (identical(other.viewColor, viewColor) ||
+                other.viewColor == viewColor) &&
+            (identical(other.alarmYn, alarmYn) || other.alarmYn == alarmYn));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
     runtimeType,
-    id,
+    scheduleId,
     title,
     description,
-    startTime,
-    endTime,
-    color,
+    siteId,
+    clientId,
+    codeId,
     isAllDay,
+    startDate,
+    endDate,
+    viewColor,
+    alarmYn,
   );
 
   /// Create a copy of CalendarResponseModel
@@ -289,13 +360,17 @@ class _$CalendarResponseModelImpl extends _CalendarResponseModel {
 
 abstract class _CalendarResponseModel extends CalendarResponseModel {
   const factory _CalendarResponseModel({
-    required final String id,
+    required final String scheduleId,
     required final String title,
     required final String description,
-    required final DateTime startTime,
-    required final DateTime endTime,
-    @JsonKey(includeToJson: false, includeFromJson: false) final Color color,
-    final bool isAllDay,
+    required final int siteId,
+    required final int clientId,
+    required final int codeId,
+    required final bool isAllDay,
+    required final DateTime startDate,
+    required final DateTime endDate,
+    required final String viewColor,
+    required final bool alarmYn,
   }) = _$CalendarResponseModelImpl;
   const _CalendarResponseModel._() : super._();
 
@@ -303,20 +378,27 @@ abstract class _CalendarResponseModel extends CalendarResponseModel {
       _$CalendarResponseModelImpl.fromJson;
 
   @override
-  String get id;
+  String get scheduleId;
   @override
   String get title;
   @override
   String get description;
   @override
-  DateTime get startTime;
+  int get siteId;
   @override
-  DateTime get endTime;
+  int get clientId;
   @override
-  @JsonKey(includeToJson: false, includeFromJson: false)
-  Color get color;
+  int get codeId;
   @override
   bool get isAllDay;
+  @override
+  DateTime get startDate;
+  @override
+  DateTime get endDate;
+  @override
+  String get viewColor;
+  @override
+  bool get alarmYn;
 
   /// Create a copy of CalendarResponseModel
   /// with the given fields replaced by the non-null parameter values.

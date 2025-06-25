@@ -1,7 +1,7 @@
 import 'package:calender_test/features/auth/presentation/view/password_change_view.dart';
 import 'package:calender_test/features/base/presentation/base_view.dart';
-import 'package:calender_test/features/business/presentation/view/business_selection_view.dart';
-import 'package:calender_test/features/calendar/presentation/view/custom_calendar_view.dart';
+import 'package:calender_test/features/site/presentation/view/site_selection_view.dart';
+import 'package:calender_test/features/calendar/presentation/view/calendar_view.dart';
 import 'package:calender_test/features/auth/presentation/view/login_view.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -23,21 +23,19 @@ final router = GoRouter(
       name: 'login',
       builder: (context, state) => LoginView(),
     ),
-
-    // 비밀번호 변경 화면
+    // 비밀번호 변경
     GoRoute(
       path: '/password-change',
       name: 'password-change',
       builder: (context, state) => PasswordChangeView(),
     ),
-
     // 사업장 선택
     GoRoute(
-      path: '/business-selection',
-      name: 'business-selection',
+      path: '/site-selection',
+      name: 'site-selection',
       pageBuilder: (context, state) => CustomTransitionPage(
         key: state.pageKey,
-        child: BusinessSelectionView(),
+        child: SiteSelectionView(),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           final tween = Tween<Offset>(
             begin: Offset(1, 0),
@@ -52,7 +50,7 @@ final router = GoRouter(
       ),
     ),
 
-    // 로그인 이후 공통 레이아웃
+    // [메인 레이아웃]
     ShellRoute(
       navigatorKey: shellNavKey,
       builder: (context, state, child) {
@@ -64,7 +62,9 @@ final router = GoRouter(
           path: '/calendar',
           name: 'calendar',
           pageBuilder: (context, state) =>
-              NoTransitionPage(child: CustomCalendarView()),
+              NoTransitionPage(child: CalendarView()),
+          // pageBuilder: (context, state) =>
+          //     NoTransitionPage(child: CustomCalendarView()),
         ),
         // /profile → 프로필 탭
         GoRoute(

@@ -4,8 +4,6 @@ import 'package:calender_test/features/auth/domain/repositories/auth_repository.
 import 'package:calender_test/network/base_response.dart';
 import 'dart:async';
 
-import 'package:dio/dio.dart';
-
 /// 로그인 유스케이스
 class LoginUseCase {
   final AuthRepository _repository;
@@ -81,11 +79,14 @@ class LoginUseCase {
       case 201:
         // 비밀번호 변경 필요
         return LoginResult.changePassword(code: response.code);
-
+      case 400:
+        return LoginResult.error(errorMessage: "아이디 또는 비밀번호를 확인해 주세요.");
+      case 500:
+        return LoginResult.error(errorMessage: "네트워크 연결을 확인해 주세요.");
       default:
         // 로그인 실패
         return LoginResult.error(
-          errorMessage: response.message,
+          errorMessage: "로그인 중 오류가 발생했습니다.",
           code: response.code,
         );
     }

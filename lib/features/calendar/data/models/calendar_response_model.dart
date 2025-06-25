@@ -1,6 +1,5 @@
-import 'package:flutter/material.dart';
+import 'package:calender_test/features/calendar/domain/entities/calendar_event_entity.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:json_annotation/json_annotation.dart';
 
 part 'calendar_response_model.freezed.dart';
 part 'calendar_response_model.g.dart';
@@ -13,15 +12,17 @@ class CalendarResponseModel with _$CalendarResponseModel {
   const CalendarResponseModel._();
 
   const factory CalendarResponseModel({
-    required String id,
+    required String scheduleId,
     required String title,
     required String description,
-    required DateTime startTime,
-    required DateTime endTime,
-    @JsonKey(includeToJson: false, includeFromJson: false)
-    @Default(Colors.blue)
-    Color color,
-    @Default(false) bool isAllDay,
+    required int siteId,
+    required int clientId,
+    required int codeId,
+    required bool isAllDay,
+    required DateTime startDate,
+    required DateTime endDate,
+    required String viewColor,
+    required bool alarmYn,
   }) = _CalendarResponseModel;
 
   /// JSON에서 모델 객체로 변환
@@ -31,14 +32,37 @@ class CalendarResponseModel with _$CalendarResponseModel {
   static List<CalendarResponseModel> emptyList() {
     return [
       CalendarResponseModel(
-        id: '',
+        scheduleId: '',
         title: '',
         description: '',
-        startTime: DateTime.now(),
-        endTime: DateTime.now(),
-        color: Colors.blue,
+        siteId: 0,
+        clientId: 0,
+        codeId: 0,
         isAllDay: false,
+        startDate: DateTime.now(),
+        endDate: DateTime.now(),
+        viewColor: '',
+        alarmYn: false,
       ),
     ];
+  }
+}
+
+extension CalendarResponseModelExtension on CalendarResponseModel {
+  // toEntity
+  CalendarEventEntity toEntity() {
+    return CalendarEventEntity(
+      scheduleId: scheduleId,
+      title: title,
+      description: description,
+      siteId: siteId,
+      clientId: clientId,
+      codeId: codeId,
+      isAllDay: isAllDay,
+      startDate: startDate,
+      endDate: endDate,
+      viewColor: viewColor,
+      alarmYn: alarmYn,
+    );
   }
 }

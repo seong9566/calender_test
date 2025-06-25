@@ -1,8 +1,10 @@
 import 'dart:convert';
 
 import 'package:calender_test/features/auth/data/models/login_response_model.dart';
-import 'package:calender_test/features/business/data/models/user_permission_response_model.dart';
+import 'package:calender_test/features/site/data/models/user_permission_response_model.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:logger/logger.dart';
 
 class SecureStorageUtil {
   // 키 상수
@@ -35,7 +37,7 @@ class SecureStorageUtil {
           jsonDecode(jsonString) as Map<String, dynamic>;
       return LoginResponseModel.fromJson(jsonMap);
     } catch (e) {
-      print('로그인 정보 파싱 오류: $e');
+      debugPrint('로그인 정보 파싱 오류: $e');
       return null;
     }
   }
@@ -61,7 +63,7 @@ class SecureStorageUtil {
           jsonDecode(jsonString) as Map<String, dynamic>;
       return UserPermissionResponseModel.fromJson(jsonMap);
     } catch (e) {
-      print('사용자 권한 정보 파싱 오류: $e');
+      Logger().d('사용자 권한 정보 파싱 오류: $e');
       return null;
     }
   }

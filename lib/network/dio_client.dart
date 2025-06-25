@@ -1,8 +1,9 @@
 import 'package:calender_test/core/storage/secure_storage_util.dart';
 import 'package:calender_test/network/api_endpoint.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'dart:io' show Platform;
+
+import 'package:logger/logger.dart';
 
 /// DioClient
 ///
@@ -65,8 +66,8 @@ class DioClient {
     String path, {
     Map<String, dynamic>? queryParameters,
   }) async {
-    debugPrint(
-      "[Debug] dio Get : header : ${dio.options.headers}, path : $path, queryParameters : $queryParameters",
+    Logger().d(
+      "dio Get : header : ${dio.options.headers}, path : $path, queryParameters : $queryParameters",
     );
     return await dio.get(path, queryParameters: queryParameters);
   }
@@ -76,8 +77,8 @@ class DioClient {
     dynamic data,
     Map<String, dynamic>? queryParameters,
   }) async {
-    debugPrint(
-      "[Debug] dio Post : header : ${dio.options.headers}, path : $path, data : $data , queryParameters : $queryParameters",
+    Logger().d(
+      "dio Post : header : ${dio.options.headers}, path : $path, data : $data , queryParameters : $queryParameters",
     );
     return await dio.post(path, data: data, queryParameters: queryParameters);
   }
@@ -87,8 +88,8 @@ class DioClient {
     dynamic data,
     Map<String, dynamic>? queryParameters,
   }) async {
-    debugPrint(
-      "[Debug] dio Put : header : ${dio.options.headers}, path : $path, data : $data , queryParameters : $queryParameters",
+    Logger().d(
+      "dio Put : header : ${dio.options.headers}, path : $path, data : $data , queryParameters : $queryParameters",
     );
     return await dio.put(path, data: data, queryParameters: queryParameters);
   }
@@ -98,8 +99,8 @@ class DioClient {
     dynamic data,
     Map<String, dynamic>? queryParameters,
   }) async {
-    debugPrint(
-      "[Debug] dio Delete : header : ${dio.options.headers}, path : $path, data : $data , queryParameters : $queryParameters",
+    Logger().d(
+      "dio Delete : header : ${dio.options.headers}, path : $path, data : $data , queryParameters : $queryParameters",
     );
     return await dio.delete(path, data: data, queryParameters: queryParameters);
   }

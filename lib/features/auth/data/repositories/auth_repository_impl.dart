@@ -5,6 +5,7 @@ import 'package:calender_test/features/auth/domain/repositories/auth_repository.
 import 'package:calender_test/network/base_response.dart';
 import 'package:calender_test/routers.dart';
 import 'package:go_router/go_router.dart';
+import 'package:logger/web.dart';
 
 /// AuthRepository 구현체
 class AuthRepositoryImpl implements AuthRepository {
@@ -66,7 +67,7 @@ class AuthRepositoryImpl implements AuthRepository {
     if (rootNavKey.currentContext != null) {
       rootNavKey.currentContext!.go('/login');
     } else {
-      print("[AuthRepositoryImpl] logout: 네비게이션 컨텍스트 없음");
+      Logger().d("[AuthRepositoryImpl] logout: 네비게이션 컨텍스트 없음");
     }
   }
 }

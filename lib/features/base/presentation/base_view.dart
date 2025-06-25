@@ -1,4 +1,5 @@
-import 'package:calender_test/features/calendar/presentation/view/custom_calendar_view.dart';
+import 'package:calender_test/core/theme/app_theme.dart';
+import 'package:calender_test/features/calendar/presentation/view/calendar_view.dart';
 import 'package:calender_test/features/profile/presentation/profile_view.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -12,10 +13,8 @@ class BaseView extends StatefulWidget {
 }
 
 class _BaseViewState extends State<BaseView> {
-  final pages = [CustomCalendarView(), ProfileView()];
+  final pages = [CalendarView(), ProfileView()];
   late int currentIndex;
-  Color _fabColor = Colors.white;
-  final Color _fabHoverColor = Colors.grey.shade200;
 
   @override
   void initState() {
@@ -44,50 +43,53 @@ class _BaseViewState extends State<BaseView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _appBar(),
-      backgroundColor: Colors.white,
-      body: widget.child,
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+        child: widget.child,
+      ),
       bottomNavigationBar: _bottomNavBar(),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: _fabButton(),
+      // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      // floatingActionButton: _fabButton(),
     );
   }
 
-  MouseRegion _fabButton() {
-    return MouseRegion(
-      onEnter: (_) {
-        setState(() {
-          _fabColor = _fabHoverColor;
-        });
-      },
-      onExit: (_) {
-        setState(() {
-          _fabColor = Colors.white;
-        });
-      },
-      child: FloatingActionButton(
-        backgroundColor: _fabColor,
-        onPressed: () {
-          debugPrint("[Debug] Floating Button!");
-        },
-        child: const Icon(Icons.add_box_outlined, color: Colors.black),
-      ),
-    );
-  }
+  // MouseRegion _fabButton() {
+  //   return MouseRegion(
+  //     onEnter: (_) {
+  //       setState(() {
+  //         _fabColor = _fabHoverColor;
+  //       });
+  //     },
+  //     onExit: (_) {
+  //       setState(() {
+  //         _fabColor = Colors.white;
+  //       });
+  //     },
+  //     child: FloatingActionButton(
+  //       backgroundColor: _fabColor,
+  //       onPressed: () {
+  //         debugPrint("[Debug] Floating Button!");
+  //       },
+  //       child: const Icon(Icons.add_box_outlined, color: Colors.black),
+  //     ),
+  //   );
+  // }
 
   AppBar _appBar() {
     return AppBar(
-      leading: IconButton(
-        onPressed: () {
-          debugPrint("[Debug] Menu Icon Click!");
-        },
-        icon: Icon(Icons.menu, size: 20, weight: 24, color: Colors.black),
-      ),
-      title: Text(
-        "Calendar",
-        style: TextStyle(
-          fontSize: 20,
-          fontWeight: FontWeight.bold,
-          color: Colors.black,
+      leadingWidth: MediaQuery.sizeOf(context).width * 0.3,
+      leading: Padding(
+        padding: const EdgeInsets.only(left: 16.0),
+        child: Align(
+          alignment: Alignment.centerLeft,
+          child: Text(
+            "S-TEC",
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+              color: primaryColor,
+            ),
+          ),
         ),
       ),
       actions: [
@@ -95,11 +97,13 @@ class _BaseViewState extends State<BaseView> {
           onPressed: () {
             debugPrint("[Debug] Add Icon Click!");
           },
-          icon: Icon(Icons.add, size: 20, weight: 24, color: Colors.black),
+          icon: Icon(
+            Icons.notifications_outlined,
+            size: 24,
+            color: Colors.black,
+          ),
         ),
       ],
-
-      centerTitle: true,
     );
   }
 

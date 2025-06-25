@@ -1,3 +1,4 @@
+import 'package:calender_test/core/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 
 class AuthInputField extends StatelessWidget {
@@ -21,17 +22,25 @@ class AuthInputField extends StatelessWidget {
         obscureText: isPassword,
         keyboardType: TextInputType.name, // 이메일/텍스트에 따라 변경 가능
         decoration: InputDecoration(
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide(color: borderSideColor),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide(color: borderSideColor),
+          ),
           hintText: hintText,
-          hintStyle: const TextStyle(fontSize: 16, color: Color(0xff61758A)),
+          hintStyle: const TextStyle(fontSize: 16, color: Colors.black),
           filled: true,
-          fillColor: const Color(0xffF0F2F5),
+          fillColor: Colors.white,
           contentPadding: const EdgeInsets.symmetric(
             vertical: 16,
             horizontal: 20,
           ),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide.none,
+            borderSide: BorderSide(color: borderSideColor),
           ),
         ),
       ),

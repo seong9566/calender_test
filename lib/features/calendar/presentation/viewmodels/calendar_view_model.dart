@@ -1,208 +1,147 @@
-import 'package:calender_test/features/calendar/data/models/todo_model.dart';
+import 'dart:ui';
+
+import 'package:calender_test/core/theme/app_theme.dart';
 import 'package:calender_test/features/calendar/domain/entities/calendar_event_entity.dart';
 import 'package:calender_test/features/calendar/domain/usecases/get_events_by_date_range_usecase.dart';
 import 'package:calender_test/features/calendar/domain/usecases/get_events_usecase.dart';
-import 'package:calender_test/features/calendar/dev_utils/calendar_dummy_data.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logger/logger.dart';
 
-/// 캘린더 상태
+// * [remoteModels] : 서버에서 가져온 전체 캘린더 이벤트 리스트
+// * [focusDay] : 현재 선택된 날짜
+// * [firstDay] : 캘린더의 첫 날짜
+// * [lastDay] : 캘린더의 마지막 날짜
+// * [selectedEvents] : 선택된 날짜의 이벤트 리스트
+// * [currentMonthItem] : 현재 선택된 달의 이벤트 맵 (startDate부터 endDate까지 모든 날짜에 이벤트 할당)
 class CalendarState {
-  final bool isLoading;
-  final List<CalendarEventEntity> events;
-  final String? errorMessage;
-  final List<TodoModel> todoList;
-  final DateTime? selectedDate;
+  List<CalendarEventEntity> remoteModels;
+  DateTime focusDay;
+  DateTime firstDay;
+  DateTime lastDay;
+  List<CalendarEventEntity> selectedItems;
+  Map<DateTime, List<CalendarEventEntity>> currentMonthItem;
 
-  const CalendarState({
-    this.isLoading = false,
-    this.events = const [],
-    this.errorMessage,
-    this.todoList = const [],
-    this.selectedDate,
+  CalendarState({
+    required this.remoteModels,
+    required this.focusDay,
+    required this.firstDay,
+    required this.lastDay,
+    required this.selectedItems,
+    required this.currentMonthItem,
   });
 
-  /// 로딩 상태로 변경
-  CalendarState copyWithLoading() {
-    return CalendarState(
-      isLoading: true,
-      events: events,
-      errorMessage: null,
-      todoList: todoList,
-      selectedDate: selectedDate,
-    );
-  }
-
-  /// 데이터 로드 성공
-  CalendarState copyWithSuccess(List<CalendarEventEntity> events) {
-    return CalendarState(
-      isLoading: false,
-      events: events,
-      errorMessage: null,
-      todoList: todoList,
-      selectedDate: selectedDate,
-    );
-  }
-
-  /// 에러 상태로 변경
-  CalendarState copyWithError(String message) {
-    return CalendarState(
-      isLoading: false,
-      events: events,
-      errorMessage: message,
-      todoList: todoList,
-      selectedDate: selectedDate,
-    );
-  }
-
-  /// 일반 상태 업데이트
   CalendarState copyWith({
-    bool? isLoading,
-    List<CalendarEventEntity>? events,
-    String? errorMessage,
-    List<TodoModel>? todoList,
-    DateTime? selectedDate,
-    bool clearError = false,
+    List<CalendarEventEntity>? remoteModels,
+    DateTime? focusDay,
+    DateTime? firstDay,
+    DateTime? lastDay,
+    List<CalendarEventEntity>? selectedItems,
+    Map<DateTime, List<CalendarEventEntity>>? currentMonthItem,
   }) {
     return CalendarState(
-      isLoading: isLoading ?? this.isLoading,
-      events: events ?? this.events,
-      errorMessage: clearError ? null : (errorMessage ?? this.errorMessage),
-      todoList: todoList ?? this.todoList,
-      selectedDate: selectedDate ?? this.selectedDate,
+      remoteModels: remoteModels ?? this.remoteModels,
+      focusDay: focusDay ?? this.focusDay,
+      firstDay: firstDay ?? this.firstDay,
+      lastDay: lastDay ?? this.lastDay,
+      selectedItems: selectedItems ?? this.selectedItems,
+      currentMonthItem: currentMonthItem ?? this.currentMonthItem,
+    );
+  }
+
+  factory CalendarState.init() {
+    return CalendarState(
+      remoteModels: [],
+      focusDay: DateTime.now().toUtc(),
+      firstDay: DateTime(DateTime.now().year, DateTime.now().month, 1).toUtc(),
+      lastDay: DateTime(
+        DateTime.now().year,
+        DateTime.now().month + 1,
+        0,
+      ).toUtc(),
+      selectedItems: [],
+      currentMonthItem: {},
     );
   }
 }
 
-/// 캘린더 뷰모델
 class CalendarViewModel extends StateNotifier<CalendarState> {
-  final GetEventsUseCase _getEventsUseCase;
-  final GetEventsByDateRangeUseCase _getEventsByDateRangeUseCase;
-
   CalendarViewModel({
-    required GetEventsUseCase getEventsUseCase,
-    required GetEventsByDateRangeUseCase getEventsByDateRangeUseCase,
-  }) : _getEventsUseCase = getEventsUseCase,
-       _getEventsByDateRangeUseCase = getEventsByDateRangeUseCase,
-       super(const CalendarState()) {
-    // 초기 상태 설정
-    initState();
-  }
+    required this.getEventsUseCase,
+    required this.getEventsByDateRangeUseCase,
+  }) : super(CalendarState.init());
+  final GetEventsUseCase getEventsUseCase;
+  final GetEventsByDateRangeUseCase getEventsByDateRangeUseCase;
 
-  /// 초기 상태 설정
-  void initState() {
-    // 더미 Todo 데이터로 초기화
-    state = state.copyWith(todoList: dummyTodos);
-  }
-
-  /// 모든 이벤트 로드
-  Future<void> loadAllEvents() async {
+  Future<void> fetch() async {
     try {
-      state = state.copyWithLoading();
-      final events = await _getEventsUseCase.execute();
-      state = state.copyWithSuccess(events);
-    } catch (e) {
-      state = state.copyWithError('이벤트 로드 중 오류가 발생했습니다: $e');
-    }
-  }
-
-  /// 특정 기간의 이벤트 로드
-  Future<void> loadEventsByDateRange(DateTime start, DateTime end) async {
-    try {
-      state = state.copyWithLoading();
-      final events = await _getEventsByDateRangeUseCase.execute(start, end);
-      state = state.copyWithSuccess(events);
-    } catch (e) {
-      state = state.copyWithError('특정 기간 이벤트 로드 중 오류가 발생했습니다: $e');
-    }
-  }
-
-  /// 현재 월의 이벤트 로드
-  Future<void> loadEventsForCurrentMonth() async {
-    final now = DateTime.now();
-    final firstDayOfMonth = DateTime(now.year, now.month, 1);
-    final lastDayOfMonth = DateTime(now.year, now.month + 1, 0);
-
-    await loadEventsByDateRange(firstDayOfMonth, lastDayOfMonth);
-  }
-
-  /// 선택한 날짜의 이벤트 필터링
-  List<CalendarEventEntity> getEventsForDay(DateTime day) {
-    return state.events.where((event) {
-      final eventDate = DateTime(
-        event.startTime.year,
-        event.startTime.month,
-        event.startTime.day,
+      final remoteModels = await getEventsUseCase.execute();
+      final eventsByDate = await getEventsByDateRangeUseCase.mapEventsByDate(
+        remoteModels,
       );
-      final selectedDate = DateTime(day.year, day.month, day.day);
-      return eventDate.isAtSameMomentAs(selectedDate);
-    }).toList();
-  }
-  //--------------- Todo 관련 메서드 ---------------//
 
-  /// TODO 체크
-  void checkTodo(int index, bool value) {
-    /// 1. 변경할 TODO
-    final todo = state.todoList[index];
-    final List<TodoDetailModel> updatedDetails;
+      state = state.copyWith(
+        remoteModels: remoteModels,
+        currentMonthItem: eventsByDate,
+      );
 
-    /// 조건 1) 만약 TODO가 체크되어있다면 내부 하위 요소들도 모두 체크
-    if (value) {
-      updatedDetails = todo.todoDetailModel
-          .map((detail) => detail.copyWith(isChecked: true))
-          .toList();
+      selectCalendarDay(state.focusDay);
+    } catch (e) {
+      Logger().d(e);
     }
-    /// 조건 2) TODO가 이미 체크 되어 있는 상태에서 다시 체크를 했다면 내부 하위 요소들 모두 해제
-    else {
-      updatedDetails = todo.todoDetailModel
-          .map((detail) => detail.copyWith(isChecked: false))
-          .toList();
+  }
+
+  /// 날짜 선택
+  Future<void> selectCalendarDay(DateTime selectedDay) async {
+    // 선택된 날짜를 UTC로 변환 (시간 정보 제거)
+    final selectedDateUTC = DateTime.utc(
+      selectedDay.year,
+      selectedDay.month,
+      selectedDay.day,
+    );
+    Logger().d('선택된 날짜: $selectedDay');
+    Logger().d('선택된 날짜 UTC: $selectedDateUTC');
+
+    // 선택된 날짜의 이벤트 가져오기
+    final events = getSelectedItems(selectedDateUTC);
+    Logger().d('검색된 이벤트 수: ${events.length}');
+
+    // 상태 업데이트 - focusDay를 선택한 날짜로 설정
+    state = state.copyWith(focusDay: selectedDay, selectedItems: events);
+  }
+
+  Color getColorFromHex(String hexColor) {
+    try {
+      // '#' 문자가 있으면 제거
+      final colorString = hexColor.startsWith('#')
+          ? hexColor.substring(1)
+          : hexColor;
+      if (colorString.length != 6) {
+        return primaryColor;
+      }
+      return Color(int.parse('FF$colorString', radix: 16));
+    } catch (e) {
+      Logger().e('색상 변환 오류: $e');
+      return primaryColor;
     }
-
-    /// 2. TODO 업데이트
-    final updatedTodo = todo.copyWith(
-      isChecked: value,
-      todoDetailModel: updatedDetails,
-    );
-
-    /// 3. TODO List 업데이트
-    final updatedTodoList = state.todoList
-        .map((e) => e == todo ? updatedTodo : e)
-        .toList();
-
-    state = state.copyWith(todoList: updatedTodoList);
   }
 
-  /// TODO의 Detail 체크
-  void checkTodoDetail(int index, int detailIndex, bool value) {
-    final todo = state.todoList[index];
+  List<CalendarEventEntity> getSelectedItems(DateTime focusedDay) {
+    // 결과를 저장할 리스트
+    List<CalendarEventEntity> result = [];
 
-    /// 1. detail 항목 체크/해제
-    final updatedDetails = todo.todoDetailModel.asMap().entries.map((entry) {
-      final i = entry.key;
-      final detail = entry.value;
-      return i == detailIndex ? detail.copyWith(isChecked: value) : detail;
-    }).toList();
-
-    // 모든 detail이 체크되었는지 확인
-    final isAllDetailsChecked = updatedDetails.every(
-      (d) => d.isChecked == true,
-    );
-
-    final updatedTodo = todo.copyWith(
-      isChecked: isAllDetailsChecked,
-      todoDetailModel: updatedDetails,
-    );
-
-    final updatedTodoList = state.todoList
-        .map((e) => e == todo ? updatedTodo : e)
-        .toList();
-
-    state = state.copyWith(todoList: updatedTodoList);
+    for (final mapKey in state.currentMonthItem.keys) {
+      if (_isSameDay(focusedDay, mapKey)) {
+        final events = state.currentMonthItem[mapKey] ?? [];
+        result.addAll(events);
+      }
+    }
+    return result;
   }
 
-  /// 특정 날짜의 Todo 목록 가져오기 (향후 날짜별 필터링 기능 구현 시 사용)
-  List<TodoModel> getTodosForSelectedDate() {
-    // 현재는 모든 Todo를 반환하지만, 향후 날짜별 필터링 로직 추가 가능
-    return state.todoList;
+  /// 파라미터 : 선택된 날짜 , 상태관리의 날짜
+  bool _isSameDay(DateTime focusedDay, DateTime stateDate) {
+    return focusedDay.year == stateDate.year &&
+        focusedDay.month == stateDate.month &&
+        focusedDay.day == stateDate.day;
   }
 }

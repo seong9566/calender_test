@@ -1,12 +1,12 @@
 import 'package:calender_test/features/provider/date/date_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final dateProvider = StateNotifierProvider<DateProvider, DateState>(
-  (ref) => DateProvider(),
+final globalDateProvider = StateNotifierProvider<GlobalDateProvider, DateState>(
+  (ref) => GlobalDateProvider(),
 );
 
-class DateProvider extends StateNotifier<DateState> {
-  DateProvider() : super(DateState.initial());
+class GlobalDateProvider extends StateNotifier<DateState> {
+  GlobalDateProvider() : super(DateState.initial());
 
   // 다음 날
   void nextDate() {

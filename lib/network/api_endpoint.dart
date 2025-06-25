@@ -1,13 +1,15 @@
 class ApiEndPoint {
-  /// dev, release 환경 ip가 다름
   // WEB
-  // static const String baseUrl = "http://123.2.156.148:5245/api/";
+  static const String baseUrl = "http://123.2.156.148:5245/api/";
+  static const String login = "v1/Login/W/Login";
+  static const String siteLocations = "v1/Login/W/sign/MySiteList";
+  static const String addUserLocationPermission = "v1/Login/W/sign/Permission";
 
   // Mobile
-  static const String baseUrl = "http://123.2.156.148:5246/api/";
+  // static const String baseUrl = "http://123.2.156.148:5246/api/";
 
   /// Login
-  static const String login = "v1/Login/M/Login";
+  // static const String login = "v1/Login/M/Login";
 
   /// 월별 캘린더 데이터 조회
   static const String monthCalendar = "v1/Calendar/M/sign/GetMonthCalendar";
@@ -19,8 +21,8 @@ class ApiEndPoint {
   static const String addCalendar = "v1/Calendar/M/sign/AddCalendar";
 
   /// 사업장 목록 조회
-  static const String businessLocations = "v1/Login/M/sign/MyLocationList";
+  // static const String siteLocations = "v1/Login/M/sign/MySiteList";
 
   /// 사업장 추가
-  static const String addUserLocationPermission = "v1/Login/M/sign/Permission";
+  // static const String addUserLocationPermission = "v1/Login/M/sign/Permission";
 }

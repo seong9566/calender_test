@@ -1,4 +1,5 @@
 import 'package:calender_test/features/calendar/data/datasources/calendar_remote_data_source.dart';
+import 'package:calender_test/features/calendar/data/models/calendar_response_model.dart';
 import 'package:calender_test/features/calendar/domain/entities/calendar_event_entity.dart';
 import 'package:calender_test/features/calendar/domain/repositories/calendar_repository.dart';
 import 'package:calender_test/network/base_response.dart';
@@ -11,25 +12,12 @@ class CalendarRepositoryImpl implements CalendarRepository {
 
   @override
   Future<BaseResponse<List<CalendarEventEntity>>> getEvents() async {
-    // RemoteDataSource에서 ResponseModel을 가져옴
     final response = await _remoteDataSource.getEvents();
 
     return BaseResponse<List<CalendarEventEntity>>(
       code: response.code,
       message: response.message,
-      data: response.data
-          .map(
-            (model) => CalendarEventEntity(
-              id: model.id,
-              title: model.title,
-              description: model.description,
-              startTime: model.startTime,
-              endTime: model.endTime,
-              color: model.color,
-              isAllDay: model.isAllDay,
-            ),
-          )
-          .toList(),
+      data: response.data.map((model) => model.toEntity()).toList(),
     );
   }
 
@@ -47,13 +35,17 @@ class CalendarRepositoryImpl implements CalendarRepository {
       data: response.data
           .map(
             (model) => CalendarEventEntity(
-              id: model.id,
+              scheduleId: model.scheduleId,
               title: model.title,
               description: model.description,
-              startTime: model.startTime,
-              endTime: model.endTime,
-              color: model.color,
+              siteId: model.siteId,
+              clientId: model.clientId,
+              codeId: model.codeId,
               isAllDay: model.isAllDay,
+              startDate: model.startDate,
+              endDate: model.endDate,
+              viewColor: model.viewColor,
+              alarmYn: model.alarmYn,
             ),
           )
           .toList(),

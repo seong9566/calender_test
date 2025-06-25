@@ -1,22 +1,26 @@
 import 'dart:async';
 import 'package:calender_test/core/storage/secure_storage_util.dart';
+import 'package:calender_test/firebase_options.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
+import 'package:logger/logger.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'app.dart';
 
 Future<void> main() async {
   runZonedGuarded(
     () async {
       WidgetsFlutterBinding.ensureInitialized();
-
+      await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform,
+      );
       await Future.wait([SecureStorageUtil.saveFcmToken("test")]);
 
       runApp(const ProviderScope(child: MyApp()));
     },
     (error, stackTrace) {
-      print("Error: $error");
-      print("Stack trace: $stackTrace");
+      Logger().d("Error: $error");
+      Logger().d("Stack trace: $stackTrace");
     },
   );
 }

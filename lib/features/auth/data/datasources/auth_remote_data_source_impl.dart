@@ -6,6 +6,7 @@ import 'package:calender_test/network/dio_client.dart';
 import 'package:calender_test/network/api_endpoint.dart';
 import 'package:calender_test/network/api_error.dart';
 import 'package:dio/dio.dart';
+import 'package:logger/logger.dart';
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   final DioClient _dioClient;
@@ -24,12 +25,11 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         data: {
           'loginId': userId,
           'loginPassword': userPassword,
-          'fcmToken': fcmToken,
+          // 'fcmToken': fcmToken,
         },
       );
       final Map<String, dynamic> responseData =
           response.data as Map<String, dynamic>;
-
       return BaseResponse.fromJson(
         responseData,
         (json) => LoginResponseModel.fromJson(json as Map<String, dynamic>),

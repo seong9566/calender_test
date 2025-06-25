@@ -1,7 +1,7 @@
 import 'package:calender_test/core/theme/app_theme.dart' as AppTheme;
 import 'package:calender_test/features/auth/presentation/providers/auth_providers_di.dart'; // 경로 수정
 import 'package:calender_test/features/auth/presentation/viewmodels/login_viewmodel.dart'; // 경로 및 타입 수정
-import 'package:calender_test/features/business/presentation/providers/business_providers_di.dart';
+import 'package:calender_test/features/site/presentation/providers/site_providers_di.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -37,22 +37,21 @@ class _LoginViewState extends ConsumerState<LoginView> {
     // ViewModel과 State 참조 변경
     final loginVM = ref.read(loginViewModelProvider.notifier);
     final loginState = ref.watch(loginViewModelProvider);
-    final businessVM = ref.read(businessSelectionViewModelProvider.notifier);
+    final siteVM = ref.read(siteSelectionViewModelProvider.notifier);
 
     ref.listen<LoginStatus>(loginViewModelProvider, (previous, next) {
       // 로그인 성공 시 캘린더 화면으로 이동
       if (next.loginStatus == LoginStatusEnum.user) {
-        businessVM.addBusinessLocation(LoginStatusEnum.user);
+        siteVM.addsiteLocation(LoginStatusEnum.user);
         context.goNamed('calendar');
       } else if (next.loginStatus == LoginStatusEnum.manager) {
         // 로그인이 매니저라면, 사업장 선택 화면
-        context.goNamed('business-selection');
+        context.goNamed('site-selection');
       } else if (next.loginStatus == LoginStatusEnum.changePwd) {
         // 비밀번호 변경 화면
         context.pushNamed('password-change');
       } else if (next.loginStatus == LoginStatusEnum.loading) {
       } else {
-        // 오류 메시지 표시 (예: SnackBar)
         ScaffoldMessenger.of(
           context,
         ).showSnackBar(SnackBar(content: Text(next.errorMessage ?? "")));
@@ -60,26 +59,45 @@ class _LoginViewState extends ConsumerState<LoginView> {
     });
 
     return Scaffold(
-      appBar: _appBar(),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-          child: Column(
-            children: [
-              AuthInputField(
-                hintText: '아이디',
-                controller: userIdController,
-              ), // 한글 힌트
-              const SizedBox(height: 16),
-              AuthInputField(
-                hintText: '비밀번호',
-                controller: passwordController,
-                isPassword: true,
-              ), // 한글 힌트
-              const SizedBox(height: 16),
-              _loginButton(loginVM, loginState), // ViewModel과 State 전달
-            ],
-          ),
+        child: Column(
+          children: [
+            Spacer(flex: 1),
+            Text(
+              'S-TEC',
+              style: TextStyle(
+                fontSize: 42,
+                color: AppTheme.primaryColor,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Container(
+              margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  AuthInputField(
+                    hintText: '아이디',
+                    controller: userIdController,
+                  ), // 한글 힌트
+                  const SizedBox(height: 16),
+                  AuthInputField(
+                    hintText: '비밀번호',
+                    controller: passwordController,
+                    isPassword: true,
+                  ), // 한글 힌트
+                  const SizedBox(height: 16),
+                  _loginButton(loginVM, loginState), // ViewModel과 State 전달
+                ],
+              ),
+            ),
+            Spacer(flex: 4),
+          ],
         ),
       ),
     );
@@ -95,7 +113,7 @@ class _LoginViewState extends ConsumerState<LoginView> {
       child: ElevatedButton(
         style: ButtonStyle(
           shape: WidgetStatePropertyAll(
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(36)),
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
           ),
           backgroundColor: WidgetStatePropertyAll<Color>(AppTheme.primaryColor),
         ),
@@ -105,6 +123,7 @@ class _LoginViewState extends ConsumerState<LoginView> {
                     .loading // 로딩 중일 때 버튼 비활성화
             ? null
             : () {
+                // context.go('/calendar');
                 vm.login(userIdController.text, passwordController.text);
               },
         child:
